@@ -1,4 +1,4 @@
-"""论文核心可靠性信号 PB、PD 及其在线聚合实现。"""
+"""Core reliability signals PB, PD, and their online aggregation."""
 
 from dataclasses import dataclass
 import math
@@ -8,7 +8,7 @@ import torch
 
 @dataclass
 class SignalConfig:
-    """可靠性信号超参数，与实验配置中的 ``controller`` 字段对应。"""
+    """Signal hyperparameters matching the experiment ``controller`` block."""
 
     alpha: float = 0.5
     beta: float = 0.9
@@ -20,14 +20,15 @@ class SignalConfig:
 
 
 class RunningZ:
-    """用 Welford 算法维护仅依赖历史与当前观测的在线 z-score。
+    """Online z-score via Welford updates using only past and current observations.
 
-    在线统计避免使用完整训练轨迹的未来信息。首个样本没有可估标准差，按
-    协议返回 0；后续使用样本方差 ``m2 / (n - 1)``。
+    Online statistics avoid future leakage from the full trajectory. The first
+    sample has no estimable std and returns 0 by protocol; later samples use
+    sample variance ``m2 / (n - 1)``.
     """
 
     def __init__(self, eps=1e-8):
-        """建立空的在线均值/二阶中心矩状态。"""
+        """Initialize empty online mean / second-moment state."""
 
         self.n = 0
         self.mean = 0.0
@@ -35,7 +36,7 @@ class RunningZ:
         self.eps = eps
 
     def update(self, x):
-        """纳入新观测并返回基于更新后统计量的标准化值。"""
+        """Ingest a new observation and return the updated standardized value."""
 
         x = float(x)
         self.n += 1
@@ -49,22 +50,22 @@ class RunningZ:
 
 
 class ReliabilitySignals:
-    """计算训练过程中的复杂度、动态风险与平滑可靠性指标。
+    """Compute complexity, dynamic risk, and smoothed reliability scores.
 
-    ``theta0`` 是模型初始化参数，用于计算相对初始化的复杂度；
-    ``prev_state`` 是当前 epoch 开始时的参数，用于计算单 epoch 更新范数。
-    两者语义不同，不能复用同一份快照。
+    ``theta0`` is the initialization snapshot for complexity relative to init;
+    ``prev_state`` is the epoch-start snapshot for per-epoch update norms.
+    These semantics differ and must not share one snapshot.
     """
 
     def __init__(self, model, n_train: int, cfg: SignalConfig):
-        """冻结初始化快照，并建立 PB/PD/验证损失的独立在线统计量。"""
+        """Freeze the init snapshot and create independent online stats for PB/PD/val loss."""
 
         self.cfg = cfg
         self.n_train = int(n_train)
         if cfg.snapshot_device not in {"model", "cpu"}:
             raise ValueError("Signal snapshot_device must be 'model' or 'cpu'.")
         self.snapshot_device = cfg.snapshot_device
-        # 固定先验中心 theta_0：整个 run 内不再更新。
+        # Fixed prior center theta_0: never updated within a run.
         self.theta0 = self._snapshot(model)
         self.prev_state = None
         self.z_pb = RunningZ()
@@ -75,7 +76,7 @@ class ReliabilitySignals:
         self.update_norm_seconds = 0.0
 
     def _snapshot(self, model):
-        """复制可训练参数；大模型可把快照放在 CPU 以降低常驻显存。"""
+        """Copy trainable parameters; large models may store snapshots on CPU."""
 
         return {
             name: p.detach().to("cpu", copy=True) if self.snapshot_device == "cpu" else p.detach().clone()
@@ -85,7 +86,7 @@ class ReliabilitySignals:
 
     @staticmethod
     def _squared_distance(parameter, reference):
-        """在参考快照所在设备计算单个参数张量的平方距离。"""
+        """Squared distance for one parameter tensor on the reference device."""
 
         current = parameter.detach()
         if current.device != reference.device:
@@ -94,7 +95,7 @@ class ReliabilitySignals:
 
     @staticmethod
     def _sync_model(model):
-        """在 CUDA 计时边界同步设备，避免把异步内核时间漏出统计。"""
+        """Synchronize CUDA at timing boundaries so async kernels are not missed."""
 
         parameter = next(model.parameters(), None)
         if parameter is not None and parameter.device.type == "cuda":
@@ -102,7 +103,7 @@ class ReliabilitySignals:
 
     @torch.no_grad()
     def begin_epoch(self, model):
-        """记录 epoch 起点参数，并清零本 epoch 的控制器计时。"""
+        """Record epoch-start parameters and reset per-epoch controller timers."""
 
         self.gradient_norm_seconds = 0.0
         self.update_norm_seconds = 0.0
@@ -110,7 +111,7 @@ class ReliabilitySignals:
 
     @torch.no_grad()
     def gradient_norm(self, model):
-        """返回当前反向传播梯度的全参数 L2 范数。"""
+        """Return the full-parameter L2 norm of current backprop gradients."""
 
         self._sync_model(model)
         started = time.perf_counter()
@@ -125,7 +126,7 @@ class ReliabilitySignals:
 
     @torch.no_grad()
     def update_norm(self, model):
-        """返回 ``||theta_t - theta_epoch_start||_2``。"""
+        """Return ``||theta_t - theta_epoch_start||_2``."""
 
         self._sync_model(model)
         started = time.perf_counter()
@@ -143,7 +144,7 @@ class ReliabilitySignals:
 
     @torch.no_grad()
     def complexity_ct(self, model):
-        """计算 ``C_t = ||theta_t-theta_0||^2 / (2*sigma^2)``。"""
+        """Compute ``C_t = ||theta_t-theta_0||^2 / (2*sigma^2)``."""
 
         self._sync_model(model)
         terms = []
@@ -157,22 +158,23 @@ class ReliabilitySignals:
         return total / (2.0 * sigma2)
 
     def compute(self, model, train_nll, val_nll, grad_norm, update_norm, variant="reliability"):
-        """计算指定消融版本的 PB、PD、瞬时风险 ``r`` 与 EMA ``rbar``。
+        """Compute PB, PD, instantaneous risk ``r``, and EMA ``rbar`` for a variant.
 
-        PB 将验证 NLL 与相对初始化的复杂度惩罚组合；PD 描述验证/训练风险
-        差、梯度范数和参数更新范数。各 ``variant`` 只替换论文消融所要求的
-        项，其余在线统计和控制接口保持一致。
+        PB combines validation NLL with an init-relative complexity penalty; PD
+        combines positive risk mismatch, gradient norm, and update norm. Each
+        ``variant`` only swaps terms required by the paper ablation while keeping
+        the same online stats and control interface.
         """
 
         pb_started = time.perf_counter()
         c_t = self.complexity_ct(model)
         n = max(1, self.n_train)
 
-        # PAC-Bayes 风格上界项：delta 控制置信水平，n 为训练子集样本数。
+        # PAC-Bayes-style bound term: delta sets confidence; n is train subset size.
         pb = val_nll + math.sqrt(max(0.0, (c_t + math.log(2.0 * math.sqrt(n) / self.cfg.delta)) / (2.0 * n)))
         pb_seconds = time.perf_counter() - pb_started
         pd_started = time.perf_counter()
-        # 只惩罚验证风险高于训练风险的部分，负泛化差截断为 0。
+        # Penalize only val risk above train risk; negative gaps are clipped to 0.
         v_t = max(0.0, val_nll - train_nll)
         pd_terms = {
             "reliability_pd_full": v_t + self.cfg.lambda_g * grad_norm + self.cfg.lambda_u * update_norm,
@@ -184,7 +186,7 @@ class ReliabilitySignals:
         pd = pd_terms.get(variant, pd_terms["reliability_pd_full"])
         pd_seconds = self.gradient_norm_seconds + self.update_norm_seconds + (time.perf_counter() - pd_started)
 
-        # PB/PD 数量级不同，先分别在线标准化，再按 alpha 融合。
+        # PB/PD have different scales: online-standardize separately, then alpha-fuse.
         standardization_started = time.perf_counter()
         pb_z = self.z_pb.update(pb)
         pd_z = self.z_pd.update(pd)
@@ -199,7 +201,7 @@ class ReliabilitySignals:
         else:
             r = self.cfg.alpha * pb_z + (1.0 - self.cfg.alpha) * pd_z
 
-        # beta 控制跨 epoch 的指数平滑；无平滑消融直接使用瞬时 r。
+        # beta is cross-epoch EMA; the no-smoothing ablation uses instantaneous r.
         if variant == "reliability_no_smoothing":
             self.rbar = r
         elif self.rbar is None:

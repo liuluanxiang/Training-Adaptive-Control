@@ -1,21 +1,21 @@
-"""基于可靠性信号的学习率调整控制器。
+"""Learning-rate controller driven by the reliability score.
 
-协议
-----
-谓词（越小越好；``epsilon`` 抑制数值噪声）::
+Protocol
+--------
+Predicate (lower is better; ``epsilon`` suppresses numeric noise)::
 
     rel_improved := finite(rbar) ∧ (rbar < best_rbar - epsilon)
 
-学习率控制::
+Learning-rate control::
 
     if epoch > control_warmup_epochs and finite(rbar):
-        if best_rbar 尚未初始化: best_rbar ← rbar   # 仅建基线，不计停滞
+        if best_rbar not yet set: best_rbar ← rbar   # baseline only, no stagnation
         elif rel_improved: best_rbar ← rbar; bad_rel ← 0
         else: bad_rel ← bad_rel + 1
         if bad_rel >= p_lr:
-            η ← max(γη, min_lr); bad_rel ← 0     # 降 LR 重置 reliability 耐心
+            η ← max(γη, min_lr); bad_rel ← 0     # LR drop resets reliability patience
 
-训练预算固定为配置中的 ``epochs``；本控制器不触发提前停止。
+The training budget is the configured ``epochs``; this controller never early-stops.
 """
 
 from __future__ import annotations
@@ -26,12 +26,12 @@ from dataclasses import dataclass
 
 @dataclass
 class ControllerConfig:
-    """控制器超参数。
+    """Controller hyperparameters.
 
-    ``p_lr``：降学习率耐心。
-    ``epsilon``：判定“严格改善”的最小幅度。
-    ``control_warmup_epochs``：前若干 epoch 不累计 reliability 耐心
-    （避开 RunningZ 首样本强制返回 0 的无效基线）。
+    ``p_lr``: patience before an LR reduction.
+    ``epsilon``: minimum improvement required for a strict update.
+    ``control_warmup_epochs``: skip reliability patience early on
+    (avoids locking onto the invalid RunningZ first-sample zero).
     """
 
     gamma: float = 0.5
@@ -42,7 +42,7 @@ class ControllerConfig:
 
 
 class ReliabilityController:
-    """跟踪平滑可靠性指标，并给出学习率控制动作。"""
+    """Track the smoothed reliability score and emit LR-control actions."""
 
     def __init__(self, cfg: ControllerConfig):
         self.cfg = cfg
@@ -57,12 +57,12 @@ class ReliabilityController:
         return x is not None and math.isfinite(float(x))
 
     def step(self, optimizer, rbar, epoch, val_loss=None):
-        """消费一个 epoch 的可靠性观测，返回学习率决策及审计状态。
+        """Consume one epoch reliability observation and return LR decisions/audit state.
 
-        ``val_loss`` 保留为可选参数以兼容旧调用点，但不参与控制。
+        ``val_loss`` remains optional for call-site compatibility but is unused.
         """
 
-        del val_loss  # 早停已移除；验证损失不再驱动控制器
+        del val_loss  # early stopping removed; validation loss does not drive control
         lr_reduced = False
 
         eps = float(self.cfg.epsilon)
@@ -71,7 +71,7 @@ class ReliabilityController:
 
         if rel_active:
             if not self._rbar_initialized:
-                # 建基线：不计停滞，避免首个有效点被当成“已停滞 1”
+                # Establish baseline without counting stagnation on the first valid point
                 self.best_rbar = rbar_f
                 self._rbar_initialized = True
                 rel_improved = True

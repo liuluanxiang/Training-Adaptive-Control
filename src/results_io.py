@@ -1,4 +1,4 @@
-"""统一读取实验结果，并处理历史结果的类型兼容。"""
+"""Unified experiment-result I/O with legacy type compatibility."""
 
 import json
 from pathlib import Path
@@ -7,7 +7,7 @@ import pandas as pd
 
 
 def infer_experiment_type(experiment_name):
-    """从历史实验名称推断类型；新结果应优先写入显式字段。"""
+    """Infer experiment type from legacy names; new runs should store it explicitly."""
 
     name = str(experiment_name or "").lower()
     if name.startswith("quick"):
@@ -24,7 +24,7 @@ def infer_experiment_type(experiment_name):
 
 
 def ensure_experiment_type(df):
-    """补齐 DataFrame 的 ``experiment_type``，不原地修改调用方数据。"""
+    """Fill ``experiment_type`` without mutating the caller DataFrame."""
 
     if df is None or df.empty:
         return df
@@ -40,7 +40,7 @@ def ensure_experiment_type(df):
 
 
 def filter_quick(df, include_quick=False):
-    """默认排除仅用于通路验证、不可写入论文结论的 quick 结果。"""
+    """By default exclude quick smoke runs from paper-facing tables."""
 
     out = ensure_experiment_type(df)
     if out is None or out.empty or include_quick:
@@ -49,7 +49,7 @@ def filter_quick(df, include_quick=False):
 
 
 def collect_histories(results_dir, include_quick=False):
-    """递归汇总所有种子的逐 epoch 历史记录。"""
+    """Recursively aggregate per-epoch histories across runs."""
 
     frames = []
     for path in Path(results_dir).glob("*/*/seed_*/history.csv"):
@@ -72,7 +72,7 @@ def collect_histories(results_dir, include_quick=False):
 
 
 def collect_summaries(results_dir, include_quick=False):
-    """优先读取主汇总表，缺失时从各运行 ``summary.json`` 重建。"""
+    """Prefer the master summary table; otherwise rebuild from ``summary.json`` files."""
 
     results_dir = Path(results_dir)
     master = results_dir / "master_summary.csv"

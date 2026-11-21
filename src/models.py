@@ -1,4 +1,4 @@
-"""实验模型工厂：统一建立 CNN、ConvNeXt 与 DeiT 分类器。"""
+"""Model factory for CNN, ConvNeXt, and DeiT classifiers."""
 
 from pathlib import Path
 
@@ -13,22 +13,22 @@ def build_model(
     pretrained_checkpoint: str | None = None,
     image_size: int | None = None,
 ):
-    """按配置建立分类模型并返回未迁移设备的 ``nn.Module``。
+    """Build a classifier and return an ``nn.Module`` not yet moved to device.
 
     Args:
-        name: 配置文件中的模型标识。
-        num_classes: 数据集类别数，决定最终分类头输出维度。
-        pretrained_checkpoint: DeiT 官方预训练权重的本地路径；CNN/ConvNeXt 实验从头训练。
+        name: Model id from the config.
+        num_classes: Dataset class count for the final head.
+        pretrained_checkpoint: Local DeiT checkpoint path; CNN/ConvNeXt train from scratch.
 
-    ResNet/VGG 的结构修改用于保留 32x32 或 64x64 小图像上的空间信息；
-    DeiT 保持 224x224 官方结构，以便严格加载预训练骨干。
+    ResNet/VGG stems are adapted to keep spatial detail on 32x32 or 64x64 inputs;
+    DeiT keeps the official 224x224 structure for strict pretrained loading.
     """
 
     name = name.lower()
 
     if name == "resnet18":
         model = models.resnet18(weights=None, num_classes=num_classes)
-        # ImageNet 默认 7x7/stride-2 stem 对小图像下采样过强，改为 CIFAR stem。
+        # Default ImageNet 7x7/stride-2 stem is too aggressive for small images; use CIFAR stem.
         if image_size is None or image_size < 128:
             model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
             model.maxpool = nn.Identity()
@@ -36,7 +36,7 @@ def build_model(
 
     if name == "resnet50":
         model = models.resnet50(weights=None, num_classes=num_classes)
-        # 与 ResNet-18 使用相同的小图像输入协议，保证模型对比口径一致。
+        # Same small-image input protocol as ResNet-18 for fair comparisons.
         if image_size is None or image_size < 128:
             model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
             model.maxpool = nn.Identity()
@@ -44,7 +44,7 @@ def build_model(
 
     if name == "vgg16":
         model = models.vgg16_bn(weights=None, num_classes=num_classes)
-        # 自适应池化将任意实验输入尺寸压到 1x1，分类头输入固定为 512 维。
+        # Adaptive pooling maps any input size to 1x1; head input is fixed at 512-d.
         model.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         model.classifier = nn.Sequential(
             nn.Linear(512, 512),
@@ -55,7 +55,7 @@ def build_model(
         return model
 
     if name == "convnext_tiny":
-        # 保持 torchvision 官方 ConvNeXt-Tiny 结构，只替换为目标数据集分类头。
+        # Keep official torchvision ConvNeXt-Tiny; replace only the dataset head.
         return models.convnext_tiny(weights=None, num_classes=num_classes)
 
     if name == "deit_tiny_patch16_224":
@@ -63,7 +63,7 @@ def build_model(
             import timm
         except ImportError as exc:
             raise RuntimeError("DeiT requires timm; install requirements.txt in the project environment.") from exc
-        # 先建立目标类别数模型，再显式加载本地权重，保证权重来源可哈希审计。
+        # Build target-class model first, then load local weights for auditable provenance.
         model = timm.create_model("deit_tiny_patch16_224", pretrained=False, num_classes=num_classes)
         if pretrained_checkpoint:
             checkpoint_path = Path(pretrained_checkpoint)
@@ -71,13 +71,13 @@ def build_model(
                 raise FileNotFoundError(f"DeiT checkpoint not found: {checkpoint_path}")
             checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
             state = dict(checkpoint.get("model", checkpoint))
-            # 官方分类头为 ImageNet-1K；丢弃它并保留新建的数据集专用分类头。
+            # Official head is ImageNet-1K; drop it and keep the new dataset head.
             state.pop("head.weight", None)
             state.pop("head.bias", None)
             incompatible = model.load_state_dict(state, strict=False)
             missing = set(incompatible.missing_keys)
             unexpected = set(incompatible.unexpected_keys)
-            # 除分类头外的任何缺失/多余键都意味着骨干权重与结构不兼容。
+            # Any missing/unexpected key outside the head means backbone/structure mismatch.
             if unexpected or not missing.issubset({"head.weight", "head.bias"}):
                 raise RuntimeError(
                     f"Incompatible DeiT checkpoint: missing={sorted(missing)}, unexpected={sorted(unexpected)}"

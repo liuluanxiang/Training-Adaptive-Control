@@ -1,4 +1,4 @@
-"""数据集读取、预处理及可复现的训练/验证/测试划分。"""
+"""Dataset loading, preprocessing, and reproducible train/val/test splits."""
 
 import os
 
@@ -47,10 +47,10 @@ def effective_num_workers(requested: int, platform: str | None = None) -> int:
 
 
 def image_transform(dataset: str, train: bool, image_size: int | None = None, normalization: str = "dataset"):
-    """建立训练增强或确定性评估变换。
+    """Build training augmentations or deterministic evaluation transforms.
 
-    训练集允许随机裁剪和翻转；验证/测试集只做确定性的缩放与中心裁剪。
-    这一区分保证模型选择不会受到随机验证增强噪声影响。
+    Train may use random crop/flip; val/test use deterministic resize/center-crop
+    so model selection is not polluted by stochastic val augmentation.
     """
 
     dataset = dataset.lower()
@@ -63,7 +63,7 @@ def image_transform(dataset: str, train: bool, image_size: int | None = None, no
     mean, std = NORMALIZATION[norm_key]
 
     if dataset == "imagenet100" or size > native_size:
-        # ImageNet 数据和 224 输入模型使用标准随机面积裁剪/中心裁剪协议。
+        # ImageNet data and 224-input models use standard random-resized / center crop.
         spatial = [
             transforms.RandomResizedCrop(size, scale=(0.8, 1.0)),
             transforms.RandomHorizontalFlip(),
@@ -80,7 +80,7 @@ def image_transform(dataset: str, train: bool, image_size: int | None = None, no
 
 
 def _split_indices(length: int, val_ratio: float, seed: int):
-    """用局部随机生成器产生固定的训练/验证互斥索引。"""
+    """Create fixed disjoint train/val indices with a local RNG."""
 
     val_size = int(length * val_ratio)
     train_size = length - val_size
@@ -89,10 +89,10 @@ def _split_indices(length: int, val_ratio: float, seed: int):
 
 
 def _cifar_datasets(dataset: str, root: str, train_transform, eval_transform, val_ratio: float, seed: int):
-    """从官方训练集划出验证集，官方测试集仅留作最终一次评估。"""
+    """Carve validation from the official train set; keep official test for final eval."""
 
     dataset_cls = datasets.CIFAR10 if dataset == "cifar10" else datasets.CIFAR100
-    # 两个 Dataset 共享原始样本但使用不同 transform，避免验证集继承训练增强。
+    # Two Datasets share raw samples but use different transforms so val is not augmented.
     train_source = dataset_cls(root=root, train=True, transform=train_transform, download=True)
     validation_source = dataset_cls(root=root, train=True, transform=eval_transform, download=True)
     test_set = dataset_cls(root=root, train=False, transform=eval_transform, download=True)
@@ -106,7 +106,7 @@ def _cifar_datasets(dataset: str, root: str, train_transform, eval_transform, va
 
 
 def _resolve_imagenet100_root(root: str) -> Path:
-    """定位已按 ImageFolder 布局整理的 ImageNet-100 根目录。"""
+    """Locate an ImageNet-100 root already arranged for ImageFolder."""
 
     supplied = Path(root)
     candidates = [supplied, supplied / "imagenet-100", supplied / "imagenet100", supplied / "ImageNet-100"]
@@ -121,7 +121,7 @@ def _resolve_imagenet100_root(root: str) -> Path:
 
 
 def _imagenet100_datasets(root: str, train_transform, eval_transform, val_ratio: float, seed: int):
-    """构建 ImageNet-100 训练、内部验证和隔离的官方验证测试集。"""
+    """Build ImageNet-100 train, internal val, and held-out official val/test."""
 
     dataset_root = _resolve_imagenet100_root(root)
     train_root = dataset_root / "train"
@@ -169,10 +169,10 @@ def build_loaders(
     image_size: int | None = None,
     normalization: str = "dataset",
 ):
-    """建立三个数据加载器并返回 ``(train, val, test, num_classes)``。
+    """Build three loaders and return ``(train, val, test, num_classes)``.
 
-    ``seed`` 同时固定数据子集划分和训练 DataLoader 的洗牌顺序。验证与测试
-    不洗牌，便于复核 logits、targets 与派生指标的一一对应关系。
+    ``seed`` fixes both the subset split and the train DataLoader shuffle order.
+    Val/test are not shuffled so logits/targets/metrics stay aligned.
     """
 
     dataset = dataset.lower()
@@ -193,13 +193,13 @@ def build_loaders(
     loader_kwargs = {
         "batch_size": batch_size,
         "num_workers": workers,
-        # CUDA 训练可借助页锁定内存加速 H2D 拷贝；CPU 环境也保持接口一致。
+        # CUDA training may use pinned memory for H2D copies; CPU keeps the same API.
         "pin_memory": True,
-        # Windows 长队列中不跨 epoch 常驻 worker，避免提交内存及共享映射累积。
+        # On Windows long queues, do not persist workers across epochs (shared-mapping growth).
         "persistent_workers": workers > 0 and os.name != "nt",
     }
     if workers > 0:
-        # 默认值为 2；降低预取深度可将 Windows 共享映射峰值再减半。
+        # Default prefetch is 2; lowering it further halves Windows shared-mapping peaks.
         loader_kwargs["prefetch_factor"] = 1
     train_loader = DataLoader(
         train_set,

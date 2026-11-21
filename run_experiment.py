@@ -1,8 +1,9 @@
-"""统一实验入口：执行单配置的训练、控制、评估、审计与结果落盘。
+"""Unified experiment entry: train, control, evaluate, audit, and write artifacts.
 
-配置文件决定数据集、模型、方法和随机种子。本模块将每个 ``method x seed``
-视为独立科学运行，并把逐 epoch 轨迹、最佳验证检查点、一次性测试结果以及
-复现哈希写入结果目录。
+The config selects dataset, model, methods, and seeds. Each ``method x seed`` is
+an independent scientific run. Per-epoch trajectories, the best validation
+checkpoint, a single final test evaluation, and reproducibility hashes are written
+to the result directory.
 """
 
 import argparse
@@ -50,14 +51,14 @@ RESULT_ARTIFACTS = [
 
 
 def canonical_hash(value):
-    """对 JSON 可序列化对象计算与键顺序无关的 SHA-256。"""
+    """SHA-256 of a JSON-serializable object, independent of key order."""
 
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def scientific_run_hash(cfg, method, seed):
-    """计算科学配置哈希，排除不影响数值结果的调度/路径字段。"""
+    """Scientific config hash excluding orchestration/path-only fields."""
 
     orchestration_only = {
         "experiment_name", "experiment_type", "methods", "seeds", "results_dir"
@@ -68,7 +69,7 @@ def scientific_run_hash(cfg, method, seed):
 
 
 def file_sha256(path):
-    """分块计算外部文件哈希；用于记录 DeiT 预训练权重的确切版本。"""
+    """Chunked file hash for recording the exact DeiT checkpoint version."""
 
     if not path:
         return ""
@@ -80,7 +81,7 @@ def file_sha256(path):
 
 
 def tensor_state_hash(state):
-    """将参数名、dtype、shape 和原始字节纳入模型状态哈希。"""
+    """Hash parameter names, dtypes, shapes, and raw bytes of a state dict."""
 
     digest = hashlib.sha256()
     for name, tensor in sorted(state.items()):
@@ -93,7 +94,7 @@ def tensor_state_hash(state):
 
 
 def split_hashes(train_loader, val_loader):
-    """返回完整划分哈希与验证索引哈希，支持跨运行核对数据协议。"""
+    """Return full-split and validation-index hashes for protocol audits."""
 
     train_indices = list(getattr(train_loader.dataset, "indices", range(len(train_loader.dataset))))
     val_indices = list(getattr(val_loader.dataset, "indices", range(len(val_loader.dataset))))
@@ -101,7 +102,7 @@ def split_hashes(train_loader, val_loader):
 
 
 def git_commit():
-    """读取当前提交号；非 Git 环境下保留明确的不可解析标记。"""
+    """Read the current git commit, or an unresolved marker outside git."""
 
     try:
         return subprocess.check_output(
@@ -112,13 +113,13 @@ def git_commit():
 
 
 def now_text():
-    """返回供实时状态和日志显示的本地时间。"""
+    """Local timestamp string for live status and logs."""
 
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def format_duration(seconds):
-    """将秒数格式化为紧凑且适合仪表盘显示的持续时间。"""
+    """Format seconds as a compact dashboard-friendly duration."""
 
     if seconds is None or not math.isfinite(seconds) or seconds < 0:
         return "unknown"
@@ -133,20 +134,20 @@ def format_duration(seconds):
 
 
 def make_run_id():
-    """生成批次级时间戳标识，主要用于归档旧结果。"""
+    """Batch-level timestamp id, mainly for archiving previous results."""
 
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 def sync_if_cuda(device):
-    """仅在 CUDA 上同步异步工作，用于准确计时和进度估计。"""
+    """Synchronize CUDA async work for accurate timing and ETA."""
 
     if device.type == "cuda":
         torch.cuda.synchronize(device)
 
 
 def result_artifacts(out_dir):
-    """列举已有运行产物，作为覆盖/跳过策略的输入。"""
+    """List existing run artifacts for skip/overwrite decisions."""
 
     out_dir = Path(out_dir)
     if not out_dir.exists():
@@ -161,7 +162,7 @@ def result_artifacts(out_dir):
 
 
 def load_existing_summary(out_dir):
-    """容错读取已完成摘要；缺失或损坏时返回 ``None``。"""
+    """Read a completed summary; return ``None`` if missing/corrupt."""
 
     path = Path(out_dir) / "summary.json"
     if not path.exists():
@@ -173,7 +174,7 @@ def load_existing_summary(out_dir):
 
 
 def existing_scientific_hash(out_dir, summary):
-    """读取旧结果的科学哈希，并兼容尚未直接记录哈希的历史结果。"""
+    """Read a legacy scientific hash, including older runs without a stored hash."""
 
     stored = (summary or {}).get("scientific_config_hash")
     if stored:
@@ -189,13 +190,13 @@ def existing_scientific_hash(out_dir, summary):
 
 
 def planned_output_dir(cfg, method, seed):
-    """按照 ``experiment/method/seed`` 约定生成运行目录。"""
+    """Build the run directory under the ``experiment/method/seed`` layout."""
 
     return Path(cfg["results_dir"]) / cfg["experiment_name"] / method / f"seed_{seed}"
 
 
 def planned_runs(cfg, existing_policy):
-    """在训练前审计所有运行，标记将运行、跳过、归档或报错的项目。"""
+    """Pre-flight audit of all runs: mark run/skip/archive/error."""
 
     runs = []
     run_index = 0
@@ -244,7 +245,7 @@ def planned_runs(cfg, existing_policy):
 
 
 def archive_existing_output(out_dir, archive_root):
-    """把现有目录整体移入带批次标识的归档树，保留原始证据。"""
+    """Move an existing directory into a batch-tagged archive tree."""
 
     out_dir = Path(out_dir)
     archive_root = Path(archive_root)
@@ -264,7 +265,7 @@ def archive_existing_output(out_dir, archive_root):
 
 
 def write_dashboard(dashboard_path, state_path):
-    """从静态模板生成指向实时 JSON 状态的实验仪表盘。"""
+    """Render the live dashboard HTML from the static template."""
 
     dashboard_path = Path(dashboard_path)
     state_path = Path(state_path)
@@ -321,10 +322,10 @@ def safe_print(message):
 
 
 class ProgressLogger:
-    """同步维护控制台日志、追加日志文件和仪表盘 JSON 状态。"""
+    """Keep console logs, append-only log files, and dashboard JSON in sync."""
 
     def __init__(self, mode="epoch", interval=50, seconds=30.0, log_path=None):
-        """初始化日志频率、可选文件句柄和实时状态骨架。"""
+        """Initialize log cadence, optional file handles, and live-state skeleton."""
 
         self.mode = mode
         self.interval = max(1, int(interval))
@@ -347,17 +348,17 @@ class ProgressLogger:
             self._fh = path.open("a", encoding="utf-8", buffering=1)
 
     def enabled(self):
-        """返回是否启用任何进度输出。"""
+        """Whether any progress output is enabled."""
 
         return self.mode != "none"
 
     def batch_enabled(self):
-        """返回是否启用 mini-batch 级心跳。"""
+        """Whether mini-batch heartbeats are enabled."""
 
         return self.mode == "batch"
 
     def configure_state(self, state_path, dashboard_path=None):
-        """绑定状态文件，并保留队列脚本写入的顶层通知字段。"""
+        """Bind the state file and preserve top-level notice fields from the queue."""
 
         self.state_path = Path(state_path)
         self.state_path.parent.mkdir(parents=True, exist_ok=True)
@@ -380,14 +381,14 @@ class ProgressLogger:
         self.write_state()
 
     def update_state(self, **kwargs):
-        """更新批次级状态并立即落盘。"""
+        """Update batch-level state and flush immediately."""
 
         self.state.update(kwargs)
         self.state["updated_at"] = now_text()
         self.write_state()
 
     def update_current(self, **kwargs):
-        """合并当前运行/epoch/batch 的局部进度。"""
+        """Merge local progress for the current run/epoch/batch."""
 
         current = dict(self.state.get("current", {}))
         current.update(kwargs)
@@ -396,7 +397,7 @@ class ProgressLogger:
         self.write_state()
 
     def record_finished(self, row):
-        """登记一个已完成或已跳过的运行。"""
+        """Register a completed or skipped run."""
 
         finished = self.state.setdefault("finished_runs", [])
         finished.append(row)
@@ -405,7 +406,7 @@ class ProgressLogger:
         self.write_state()
 
     def write_state(self):
-        """写出仪表盘读取的 JSON 快照。"""
+        """Write the JSON snapshot consumed by the dashboard."""
 
         if self.state_path is None:
             return
@@ -416,7 +417,7 @@ class ProgressLogger:
             return
 
     def log(self, message):
-        """输出消息，并只在状态中保留最近 120 条以限制文件增长。"""
+        """Emit a message and retain only the last 120 lines in state."""
 
         if not self.enabled():
             return
@@ -434,7 +435,7 @@ class ProgressLogger:
         self.write_state()
 
     def close(self):
-        """关闭可选的追加日志句柄。"""
+        """Close the optional append-only log handle."""
 
         if self._fh is not None:
             self._fh.close()
@@ -442,7 +443,7 @@ class ProgressLogger:
 
 
 def make_optimizer(cfg, model):
-    """按配置建立 SGD 或 AdamW，并统一传入权重衰减。"""
+    """Build SGD or AdamW from config with a unified weight-decay argument."""
 
     if cfg["optimizer"].lower() == "sgd":
         return optim.SGD(
@@ -461,7 +462,7 @@ def make_optimizer(cfg, model):
 
 
 def make_scheduler(method, cfg, optimizer):
-    """为传统基线建立调度器；可靠性方法由自定义控制器接管。"""
+    """Build baseline schedulers; reliability methods use the custom controller."""
 
     epochs = int(cfg["epochs"])
     if method == "step":
@@ -484,13 +485,13 @@ def make_scheduler(method, cfg, optimizer):
 
 
 def is_reliability_controller_method(method):
-    """判断方法是否属于完整算法或其可靠性消融版本。"""
+    """Whether the method is the full algorithm or a reliability ablation."""
 
     return method == "reliability" or str(method).startswith("reliability_")
 
 
 def resolve_device(cfg):
-    """解析运行设备，并在显式 CUDA 请求不可满足时尽早失败。"""
+    """Resolve the device and fail early if an explicit CUDA request is unmet."""
 
     requested = str(cfg.get("device", "auto")).lower()
     if requested == "auto":
@@ -533,11 +534,11 @@ def autocast_context(device, precision):
 def train_one_epoch(
     model, loader, optimizer, criterion, device, signals, progress=None, context="", precision="fp32"
 ):
-    """训练一个 epoch，并采集 PB/PD 所需的梯度与参数更新范数。
+    """Train one epoch and collect gradient/update norms needed by PB/PD.
 
-    梯度范数在最后一个 mini-batch 的 ``optimizer.step`` 之前测量；更新范数
-    则在整个 epoch 完成后相对 ``begin_epoch`` 快照测量。这样每个 epoch 只
-    增加一次全参数扫描，且两个量对应明确的时间边界。
+    Gradient norm is measured before ``optimizer.step`` on the last mini-batch;
+    update norm is measured after the epoch against the ``begin_epoch`` snapshot.
+    This adds one full-parameter scan per epoch with clear timing boundaries.
     """
 
     model.train()
@@ -560,7 +561,7 @@ def train_one_epoch(
             logits = model(x)
             loss = criterion(logits, y)
         loss.backward()
-        # 只取 epoch 末批次梯度，控制额外计算成本并固定采样位置。
+        # Use only the last-batch gradient to bound cost and fix the sampling point.
         if batch_idx == total_batches:
             last_grad_norm = signals.gradient_norm(model)
         optimizer.step()
@@ -622,10 +623,10 @@ def evaluate(
     model, loader, criterion, device, return_logits=False, progress=None, context="eval",
     precision="fp32", compute_diagnostics=True,
 ):
-    """在无梯度模式下计算分类、校准和选择性预测指标。
+    """Compute classification, calibration, and selective-prediction metrics.
 
-    logits 和 targets 始终先汇总到 CPU，以便所有派生指标使用完全相同的样本
-    顺序；只有最终测试需要保存原始张量时才通过 ``return_logits`` 返回它们。
+    Logits and targets are always gathered on CPU first so derived metrics share
+    the same sample order; raw tensors are returned only when ``return_logits``.
     """
 
     model.eval()
@@ -691,7 +692,7 @@ def evaluate(
             )
             last_log = now
 
-    # 先拼接全数据集预测，再计算 ECE/AURC，避免按 batch 平均造成统计偏差。
+    # Concatenate full-dataset predictions before ECE/AURC (avoid batch averaging bias).
     if compute_diagnostics or return_logits:
         logits = torch.cat(all_logits, dim=0)
         targets = torch.cat(all_targets, dim=0)
@@ -727,11 +728,12 @@ def evaluate(
 
 
 def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_policy="skip", run_id=None):
-    """执行一个 ``method x seed`` 的完整、可审计实验运行。
+    """Run one complete, auditable ``method x seed`` experiment.
 
-    生命周期依次为：旧结果审计、数据与模型建立、逐 epoch 训练/验证、仅按
-    验证准确率选择检查点、最终一次测试、派生文件与摘要落盘。训练期间从不
-    读取测试指标。
+    Lifecycle: audit existing artifacts, build data/model, train/validate per
+    epoch, select checkpoints by validation accuracy only, run a single final
+    test, then write derived files and the summary. Test metrics are never read
+    during training.
     """
 
     exp_name = cfg["experiment_name"]
@@ -751,7 +753,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
         total_batches=0,
     )
 
-    # 先处理已有产物，避免无提示覆盖或把不完整运行误判为已完成。
+    # Handle existing artifacts first to avoid silent overwrite or false completion.
     if artifacts:
         if existing_policy in ["skip", "rerun-partial"]:
             existing_summary = load_existing_summary(out_dir)
@@ -872,7 +874,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
     if device.type == "cuda":
         progress.log(f"CUDA device: {torch.cuda.get_device_name(device)}")
 
-    # 模型在固定随机种子后建立；初始化、数据划分和外部权重都记录哈希。
+    # Build the model after seeding; hash init, split, and external weights.
     model = build_model(
         cfg["model"], num_classes,
         pretrained_checkpoint=cfg.get("pretrained_checkpoint"),
@@ -916,7 +918,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
     optimizer = make_optimizer(cfg, model)
     scheduler = make_scheduler(method, cfg, optimizer)
 
-    # 论文算法参数由同一 controller 配置块注入信号计算器与动作控制器。
+    # Paper algorithm params come from the same controller block for signals/controller.
     sig_cfg = SignalConfig(
         alpha=cfg["controller"]["alpha"],
         beta=cfg["controller"]["beta"],
@@ -949,7 +951,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
 
-    # 单个 epoch 的严格顺序：训练 -> 验证 -> 信号 -> 调度决策 -> 检查点。
+    # Strict epoch order: train -> validate -> signals -> schedule -> checkpoint.
     for epoch in range(1, int(cfg["epochs"]) + 1):
         sync_if_cuda(device)
         epoch_start = time.time()
@@ -1000,7 +1002,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
             "lr_reductions": 0,
         }
 
-        # 所有基线与本方法只在验证结束后更新下一 epoch 的学习率。
+        # All methods update the next-epoch LR only after validation.
         decision_start = time.perf_counter()
         if is_reliability_controller_method(method):
             action = controller.step(optimizer, sig["reliability_rbar"], epoch)
@@ -1018,7 +1020,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
         )
         controller_times.append(controller_seconds)
 
-        # 模型选择唯一依据是验证准确率，测试集尚未被访问。
+        # Model selection uses validation accuracy only; test is still untouched.
         if val_stats["acc"] > best_val_acc:
             checkpoint_start = time.perf_counter()
             best_val_acc = val_stats["acc"]
@@ -1093,7 +1095,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
     hist_df = pd.DataFrame(history)
     hist_df.to_csv(out_dir / "history.csv", index=False)
 
-    # 恢复验证集选出的最佳状态后再触碰测试集，阻断测试信息泄漏。
+    # Restore the val-selected checkpoint before any test access (no test leakage).
     if best_state is not None:
         checkpoint_start = time.perf_counter()
         model.load_state_dict(best_state)
@@ -1114,7 +1116,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
         batch=0,
         total_batches=len(test_loader),
     )
-    # 每个运行只执行这一次测试评估，次数和时间戳同时写入元数据。
+    # Exactly one test evaluation per run; count and timestamp go into metadata.
     test_stats = evaluate(
         model, test_loader, criterion, device, return_logits=True,
         progress=progress,
@@ -1134,7 +1136,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
     cov, risk = risk_coverage_curve(logits, targets)
     pd.DataFrame({"coverage": cov, "risk": risk}).to_csv(out_dir / "risk_coverage_curve.csv", index=False)
 
-    # summary.json 汇总论文表格所需指标、资源开销和完整复现证据。
+    # summary.json stores paper metrics, resource cost, and reproducibility evidence.
     summary = {
         "experiment": exp_name,
         "experiment_type": exp_type,
@@ -1232,7 +1234,7 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
 
 
 def main():
-    """解析命令行、审计运行矩阵并顺序执行配置中的全部方法与种子。"""
+    """Parse CLI args, audit the run matrix, and execute all methods/seeds."""
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
@@ -1326,7 +1328,7 @@ def main():
     if not args.no_dashboard:
         dashboard_path = Path(args.dashboard_path) if args.dashboard_path else Path(cfg["results_dir"]) / "progress_dashboard.html"
     progress.configure_state(state_path, dashboard_path)
-    # 在启动首个训练前完成全矩阵碰撞审计，并同步展示到仪表盘。
+    # Finish full-matrix collision audit before the first training run.
     audit = planned_runs(cfg, args.existing)
     batch_note = ""
     if progress.batch_enabled():
@@ -1391,7 +1393,7 @@ def main():
                 if row is not None:
                     all_rows.append(row)
 
-        # 每次运行先写独立目录；批次结束后再去重合并实验级和全局摘要。
+        # Each run writes its own directory; merge experiment/global summaries after.
         exp_dir = Path(cfg["results_dir"]) / cfg["experiment_name"]
         exp_dir.mkdir(parents=True, exist_ok=True)
         new_df = pd.DataFrame(all_rows)
@@ -1423,7 +1425,7 @@ def main():
         combined.to_csv(master_path, index=False)
         progress.update_state(status="completed")
     except Exception as exc:
-        # 即使异常中止，也保留失败位置与异常文本，便于续跑审计定位。
+        # On abort, keep failure location and exception text for resume audits.
         try:
             progress.update_state(status="error", error=str(exc))
         except OSError:
