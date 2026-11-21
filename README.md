@@ -43,12 +43,19 @@ python run_experiment.py --config configs/quick_cifar10_resnet18.json
 python run_experiment.py --config configs/cifar10_resnet18_main.json
 ```
 
-## Unit tests
-
-```bash
-python -m unittest tests.test_algorithm -v
-```
 
 ## License
 
 MIT
+
+## Algorithm sketch
+
+Each epoch after validation:
+
+1. Compute PB from validation NLL and parameter-displacement complexity.
+2. Compute PD from positive risk mismatch V, gradient norm H, and update norm U.
+3. Online-standardize and fuse: r = alpha * z_PB + (1 - alpha) * z_PD.
+4. Smooth: rbar = beta * rbar + (1 - beta) * r.
+5. If rbar fails to improve for p_lr epochs: eta <- max(gamma * eta, min_lr).
+
+Training uses a fixed epoch budget; checkpoint selection uses validation accuracy.
