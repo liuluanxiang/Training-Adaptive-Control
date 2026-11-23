@@ -536,9 +536,9 @@ def train_one_epoch(
 ):
     """Train one epoch and collect gradient/update norms needed by PB/PD.
 
-    Gradient norm is measured before ``optimizer.step`` on the last mini-batch;
-    update norm is measured after the epoch against the ``begin_epoch`` snapshot.
-    This adds one full-parameter scan per epoch with clear timing boundaries.
+    Gradient norm is the mean of per-mini-batch full-parameter L2 norms, each
+    measured after ``loss.backward`` and before that batch's ``optimizer.step``.
+    Update norm is measured after the epoch against the ``begin_epoch`` snapshot.
     """
 
     model.train()
@@ -548,7 +548,8 @@ def train_one_epoch(
     top1_correct = torch.zeros((), device=device, dtype=torch.int64)
     top5_correct = torch.zeros((), device=device, dtype=torch.int64)
     sample_count = 0
-    last_grad_norm = 0.0
+    grad_norm_sum = 0.0
+    grad_norm_batches = 0
     non_blocking = device.type == "cuda"
     total_batches = len(loader)
     epoch_start = time.time()
@@ -561,9 +562,9 @@ def train_one_epoch(
             logits = model(x)
             loss = criterion(logits, y)
         loss.backward()
-        # Use only the last-batch gradient to bound cost and fix the sampling point.
-        if batch_idx == total_batches:
-            last_grad_norm = signals.gradient_norm(model)
+        # Epoch-mean gradient norm: accumulate every mini-batch pre-step L2 norm.
+        grad_norm_sum += signals.gradient_norm(model)
+        grad_norm_batches += 1
         optimizer.step()
 
         batch_size = x.size(0)
@@ -613,7 +614,7 @@ def train_one_epoch(
         "train_nll": float((loss_total / sample_count).item()),
         "train_acc": float((top1_correct.float() / sample_count).item()),
         "train_top5_acc": float((top5_correct.float() / sample_count).item()),
-        "grad_norm": last_grad_norm,
+        "grad_norm": grad_norm_sum / max(grad_norm_batches, 1),
         "update_norm": update_norm,
     }
 

@@ -17,7 +17,7 @@ No result archives are included.
 Each epoch after validation:
 
 1. Compute PB from validation NLL and parameter-displacement complexity.  
-2. Compute PD from positive risk mismatch, gradient norm, and update norm.  
+2. Compute PD from positive risk mismatch, epoch-mean mini-batch gradient norm, and update norm.  
 3. Online-standardize and fuse: `r = α z_PB + (1-α) z_PD`.  
 4. Smooth: `r̄_t = β r̄_{t-1} + (1-β) r_t`.  
 5. If `r̄` fails to improve for `p_lr` epochs: `η ← max(γ η, η_min)`.
