@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 data/
 results/
+result_TAC/
 .DS_Store
 *.pt
 *.pth

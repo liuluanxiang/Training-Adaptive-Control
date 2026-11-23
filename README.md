@@ -1,6 +1,6 @@
 # Training-Adaptive-Control (TAC)
 
-Algorithm code and experimental metric archive for **Training-Adaptive-Control**.
+Algorithm code for **Training-Adaptive-Control** (PB/PD signals and reliability-driven LR control).
 
 ## Repository layout
 
@@ -9,30 +9,8 @@ Algorithm code and experimental metric archive for **Training-Adaptive-Control**
 | `src/` | PB/PD signals, online Welford z-score, controller, data/models/metrics |
 | `run_experiment.py` | Training entry point |
 | `configs/` | Experiment JSON configs |
-| `result_TAC/` | Uploaded experimental **metric** archive (see below) |
 
-## Experimental archive (`result_TAC/`)
-
-Flat layout: `result_TAC/<experiment>/<method>/`.
-
-Experiment name prefixes:
-
-- `main_*` — main matrix (dataset × backbone × scheduler)
-- `controller_ablation_*` / `pd_component_ablation_*` — controller ablations
-- `sens_*` — α/β sensitivity
-- `sigma_*` — prior-σ sensitivity
-
-Per-run files typically include:
-
-- `summary.json` — headline test metrics
-- `history.csv` / `train_log.csv` — epoch trajectories (PB/PD, LR, losses)
-- `calibration_bins.csv` — reliability-diagram bins
-- `risk_coverage_curve.csv` — selective-prediction curve
-- `config_used.json`, `run_metadata.json`
-
-**Not included in git:** large binaries (`*.pt` / `*.pth`), i.e. `best_checkpoint.pt`, `test_logits.pt`, `test_targets.pt`. They are omitted because of GitHub size limits. Ablation / αβ / σ cells were archived as metrics-only.
-
-Default branch `main` contains code **and** `result_TAC/`. Branch `result-TAC` contains the metric archive only.
+Experimental result archives are **not** shipped in this repository. Run locally to regenerate metrics under a local `result_TAC/` (gitignored).
 
 ## Control rule (brief)
 
