@@ -1,17 +1,17 @@
 {
   "experiment": "sens_cifar10_resnet18_alpha025_beta080",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "cifar10",
   "model": "resnet18",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 120,
-  "best_val_acc": 0.953703332730058,
+  "best_val_acc": 0.9533307687231958,
   "final_val_acc": 0.9533307687231958,
   "test_acc": 0.9563,
   "test_top5_acc": 0.9989674556130833,
   "test_nll": 0.1731207902754746,
-  "test_ece": 0.12860654168394264,
+  "test_ece": 0.0246674583653427,
   "test_mce": 0.2120440312858007,
   "test_brier": 0.0715354744101625,
   "test_aurc": 0.005130702220405526,
@@ -30,7 +30,7 @@
   "pb_final": 5.164831546241576,
   "pd_final": 0.07983496209589305,
   "rbar_final": -0.26427849617163013,
-  "lr_reductions": 2,
+  "lr_reductions": 3,
   "first_lr_drop_epoch": 47,
   "runtime_seconds": 1541.9828531852995,
   "training_wall_clock_seconds": 1537.3569046257437,
@@ -62,5 +62,6 @@
   "max_epochs": 120,
   "final_val_nll": 0.1772198159038168,
   "pb_auc": 5.1465495821567435,
-  "pd_auc": 0.19116061544249555
+  "pd_auc": 0.19116061544249555,
+  "experiment_name": "sens_cifar10_resnet18_alpha025_beta080"
 }

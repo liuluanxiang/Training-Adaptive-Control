@@ -1,17 +1,17 @@
 {
   "experiment": "sens_imagenet100_resnet50_alpha050_beta080",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "imagenet100",
   "model": "resnet50",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 120,
-  "best_val_acc": 0.8029570223527844,
+  "best_val_acc": 0.802513950831347,
   "final_val_acc": 0.802513950831347,
   "test_acc": 0.8058,
   "test_top5_acc": 0.9479321681211379,
   "test_nll": 0.7785492859818525,
-  "test_ece": 0.1281992899098,
+  "test_ece": 0.0795640131821521,
   "test_mce": 0.2351609248578596,
   "test_brier": 0.2616803241656469,
   "test_aurc": 0.042753805848454944,
@@ -30,7 +30,7 @@
   "pb_final": 8.733043494585505,
   "pd_final": 0.3670923952910829,
   "rbar_final": 0.8169754975712846,
-  "lr_reductions": 2,
+  "lr_reductions": 3,
   "first_lr_drop_epoch": 55,
   "runtime_seconds": 18235.492952762197,
   "training_wall_clock_seconds": 18180.78647390391,
@@ -64,5 +64,6 @@
   "max_epochs": 120,
   "final_val_nll": 0.7785492859818525,
   "pb_auc": 8.20943152526281,
-  "pd_auc": 0.39645675624681614
+  "pd_auc": 0.39645675624681614,
+  "experiment_name": "sens_imagenet100_resnet50_alpha050_beta080"
 }

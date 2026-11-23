@@ -1,17 +1,17 @@
 {
   "experiment": "sens_imagenet100_deit_tiny_patch16_224_alpha075_beta095",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "imagenet100",
   "model": "deit_tiny_patch16_224",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 119,
-  "best_val_acc": 0.826894556342999,
+  "best_val_acc": 0.8236635872727809,
   "final_val_acc": 0.8236635872727809,
   "test_acc": 0.8288,
   "test_top5_acc": 0.9992066779288988,
   "test_nll": 1.3873909606480097,
-  "test_ece": 0.16074588644666665,
+  "test_ece": 0.1277105749316394,
   "test_mce": 0.3387811369759771,
   "test_brier": 0.2991052824235883,
   "test_aurc": 0.07435918543906223,
@@ -67,5 +67,6 @@
   "max_epochs": 120,
   "final_val_nll": 1.813383596295871,
   "pb_auc": 5.21196098388166,
-  "pd_auc": 0.791020632681794
+  "pd_auc": 0.791020632681794,
+  "experiment_name": "sens_imagenet100_deit_tiny_patch16_224_alpha075_beta095"
 }

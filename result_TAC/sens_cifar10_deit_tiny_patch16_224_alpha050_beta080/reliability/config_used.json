@@ -27,8 +27,8 @@
     "lambda_u": 0.001
   },
   "pretrained_checkpoint": "data/pretrained/deit_tiny_patch16_224-a1311bcf.pth",
-  "experiment_name": "main_cifar10_deit_tiny_patch16_224",
-  "experiment_type": "main",
+  "experiment_name": "sens_cifar10_deit_tiny_patch16_224_alpha050_beta080",
+  "experiment_type": "alpha_beta_sensitivity",
   "methods": [
     "reliability"
   ],

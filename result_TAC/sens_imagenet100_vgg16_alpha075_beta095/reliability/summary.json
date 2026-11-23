@@ -1,17 +1,17 @@
 {
   "experiment": "sens_imagenet100_vgg16_alpha075_beta095",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "imagenet100",
   "model": "vgg16",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 119,
-  "best_val_acc": 0.7503867072169427,
+  "best_val_acc": 0.7492118827770868,
   "final_val_acc": 0.7492118827770868,
   "test_acc": 0.7518,
   "test_top5_acc": 0.8937573212383648,
   "test_nll": 0.9085276028829098,
-  "test_ece": 0.1137527836825333,
+  "test_ece": 0.0868076068971755,
   "test_mce": 0.8181204476688335,
   "test_brier": 0.2962782511146156,
   "test_aurc": 0.0402195340943763,
@@ -30,7 +30,7 @@
   "pb_final": 5.02687637782275,
   "pd_final": 0.43143735088636237,
   "rbar_final": -0.45635338146973886,
-  "lr_reductions": 3,
+  "lr_reductions": 4,
   "first_lr_drop_epoch": 55,
   "runtime_seconds": 35617.06558911051,
   "training_wall_clock_seconds": 35510.21439234318,
@@ -64,5 +64,6 @@
   "max_epochs": 120,
   "final_val_nll": 0.9085276028829098,
   "pb_auc": 5.321080896441677,
-  "pd_auc": 0.2581914518910275
+  "pd_auc": 0.2581914518910275,
+  "experiment_name": "sens_imagenet100_vgg16_alpha075_beta095"
 }

@@ -1,17 +1,17 @@
 {
   "experiment": "sens_cifar100_convnext_tiny_alpha050_beta080",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "cifar100",
   "model": "convnext_tiny",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 120,
-  "best_val_acc": 0.7902531591290265,
+  "best_val_acc": 0.7906768533664758,
   "final_val_acc": 0.790111737087406,
   "test_acc": 0.7941,
   "test_top5_acc": 0.9514321309526466,
   "test_nll": 1.3033029602225976,
-  "test_ece": 0.15339262004633333,
+  "test_ece": 0.136650526178436,
   "test_mce": 0.35475560554891833,
   "test_brier": 0.3452319136832791,
   "test_aurc": 0.07389372904858557,
@@ -64,5 +64,6 @@
   "max_epochs": 120,
   "final_val_nll": 1.5021081497838102,
   "pb_auc": 11.985635479694489,
-  "pd_auc": 0.4563781019373729
+  "pd_auc": 0.4563781019373729,
+  "experiment_name": "sens_cifar100_convnext_tiny_alpha050_beta080"
 }

@@ -27,8 +27,8 @@
     "lambda_u": 0.001
   },
   "signal_snapshot_device": "cpu",
-  "experiment_name": "main_imagenet100_convnext_tiny",
-  "experiment_type": "main",
+  "experiment_name": "sens_imagenet100_convnext_tiny_alpha050_beta090",
+  "experiment_type": "alpha_beta_sensitivity",
   "methods": [
     "reliability"
   ],

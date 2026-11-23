@@ -1,17 +1,17 @@
 {
   "experiment": "sens_imagenet100_convnext_tiny_alpha025_beta090",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "imagenet100",
   "model": "convnext_tiny",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 120,
-  "best_val_acc": 0.8430451187844452,
+  "best_val_acc": 0.8511763775644708,
   "final_val_acc": 0.847652749664825,
   "test_acc": 0.8492,
   "test_top5_acc": 0.9710130420178288,
   "test_nll": 1.2689731888318152,
-  "test_ece": 0.1660925015649333,
+  "test_ece": 0.124136423768654,
   "test_mce": 0.3250050559404281,
   "test_brier": 0.3055544022059896,
   "test_aurc": 0.06532557870903441,
@@ -30,7 +30,7 @@
   "pb_final": 11.283843913506317,
   "pd_final": 0.7437856340336857,
   "rbar_final": 0.9027947487919603,
-  "lr_reductions": 2,
+  "lr_reductions": 3,
   "first_lr_drop_epoch": 52,
   "runtime_seconds": 25673.65832981097,
   "training_wall_clock_seconds": 25596.637354821534,
@@ -67,5 +67,6 @@
   "max_epochs": 120,
   "final_val_nll": 1.403684682260966,
   "pb_auc": 10.34948268941071,
-  "pd_auc": 0.7438799121429076
+  "pd_auc": 0.7438799121429076,
+  "experiment_name": "sens_imagenet100_convnext_tiny_alpha025_beta090"
 }

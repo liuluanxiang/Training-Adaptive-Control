@@ -1,17 +1,17 @@
 {
   "experiment": "sens_cifar10_deit_tiny_patch16_224_alpha050_beta080",
-  "experiment_type": "sensitivity",
+  "experiment_type": "alpha_beta_sensitivity",
   "dataset": "cifar10",
   "model": "deit_tiny_patch16_224",
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 99,
-  "best_val_acc": 0.96163292110306,
-  "final_val_acc": 0.9599878174525075,
+  "best_val_acc": 0.9605994453594844,
+  "final_val_acc": 0.9599878174525076,
   "test_acc": 0.9641,
   "test_top5_acc": 0.9997057517515879,
   "test_nll": 0.1815181498136973,
-  "test_ece": 0.14270281564858842,
+  "test_ece": 0.0288637341281885,
   "test_mce": 0.33482405868255444,
   "test_brier": 0.0604985735280361,
   "test_aurc": 0.0030123136357533067,
@@ -30,7 +30,7 @@
   "pb_final": 2.510788543697044,
   "pd_final": 0.10664055703986985,
   "rbar_final": 0.8876504645474355,
-  "lr_reductions": 2,
+  "lr_reductions": 3,
   "first_lr_drop_epoch": 45,
   "runtime_seconds": 4808.907777717421,
   "training_wall_clock_seconds": 4794.481054384269,
@@ -64,5 +64,6 @@
   "max_epochs": 120,
   "final_val_nll": 0.1984898189291346,
   "pb_auc": 1.9807502567375677,
-  "pd_auc": 0.14317476232874826
+  "pd_auc": 0.14317476232874826,
+  "experiment_name": "sens_cifar10_deit_tiny_patch16_224_alpha050_beta080"
 }
