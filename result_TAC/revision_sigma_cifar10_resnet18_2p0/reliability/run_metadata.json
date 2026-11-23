@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar10",
+  "model": "resnet18",
+  "method": "reliability",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "reliability",
+  "config_hash": "1bd4be0190639d3bfd12b4aeadc6546452e9d19c951c53fff1686c431288ed8d",
+  "scientific_config_hash": "21036735718b0756a8d660b502f934a0be5c1f6b264b92908e02544fef8d669c",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "2bff06cb10cc0247a806be3bafaa479383250820",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-09-08T00:57:41.826279+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-09-08T00:30:32.706882+08:00",
+  "completed_at": "2026-09-08T00:57:41.826279+08:00"
+}

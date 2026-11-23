@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar10",
+  "model": "vgg16",
+  "method": "step",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "step",
+  "config_hash": "fb5a841fa295edae67ad0983ff3bc4bd2768868aa2cfe0241a7e86c28dbcd2d1",
+  "scientific_config_hash": "8dedf817dc2907a2151014e320702f050521eed3a9732affef2b227624228aae",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-08-27T20:31:07.203850+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-08-27T20:18:47.073290+08:00",
+  "completed_at": "2026-08-27T20:31:07.219954+08:00"
+}

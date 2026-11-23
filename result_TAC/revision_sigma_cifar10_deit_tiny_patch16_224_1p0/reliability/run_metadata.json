@@ -1,0 +1,21 @@
+{
+  "dataset": "cifar10",
+  "model": "deit_tiny_patch16_224",
+  "method": "reliability",
+  "budget_mode": "adaptive",
+  "precision": "fp32",
+  "validation_diagnostics": true,
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "reliability",
+  "config_hash": "4f30e1edc655dff22cf902b41b08c2d37c0cb8fc75b3811992cf29867fa56333",
+  "scientific_config_hash": "f3d428255b24785d2c6108e4e53847704008d5dc25d79468c6456527476b9a40",
+  "pretrained_checkpoint_sha256": "a1311bcf4f24e3c95adaa75535db67bc4412d95535b98f7c1dfd1164dda41c97",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-09-08T00:57:49.898952+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-09-07T23:37:36.854192+08:00",
+  "completed_at": "2026-09-08T00:57:49.898952+08:00"
+}

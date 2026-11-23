@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar10",
+  "model": "deit_tiny_patch16_224",
+  "method": "step",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "step",
+  "config_hash": "815d1cdba923d4c8e7948d50fe77dab1b86ede06b3de72b21d707d5c18ef5dba",
+  "scientific_config_hash": "c95978abd6fdb58bfe0d8949a7361ca498b3665f4cb5340e1232b28d5896de20",
+  "pretrained_checkpoint_sha256": "a1311bcf4f24e3c95adaa75535db67bc4412d95535b98f7c1dfd1164dda41c97",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-08-29T07:02:04.772089+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-08-29T06:01:48.018737+08:00",
+  "completed_at": "2026-08-29T07:02:04.786812+08:00"
+}

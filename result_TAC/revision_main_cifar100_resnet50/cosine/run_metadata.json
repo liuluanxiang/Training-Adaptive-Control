@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar100",
+  "model": "resnet50",
+  "method": "cosine",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "cosine",
+  "config_hash": "fdfea41f8d3c6a64181a88c15587934f6e6fc304e3d6b5119f109a17eb276fd0",
+  "scientific_config_hash": "d290cf7704990843daefa09b1e2da5a10af637a7ea89a5a6f153cf88b1b26c8d",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-08-27T13:01:11.194245+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-08-27T12:11:23.785146+08:00",
+  "completed_at": "2026-08-27T13:01:11.211899+08:00"
+}

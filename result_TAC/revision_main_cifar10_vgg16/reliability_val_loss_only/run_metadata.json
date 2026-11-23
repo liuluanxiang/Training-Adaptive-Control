@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar10",
+  "model": "vgg16",
+  "method": "reliability_val_loss_only",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "reliability_val_loss_only",
+  "config_hash": "166d2cedd1364a8a07d2719c3e44c40c7ce80a3c9d608d4ae4f25891e98e9d30",
+  "scientific_config_hash": "3ab8def90ba91f90d5b67f690689fd37fdaea72ebface04c3f1bd4fe7c86cf33",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-09-07T23:48:43.406894+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-09-07T23:36:58.812981+08:00",
+  "completed_at": "2026-09-07T23:48:43.406894+08:00"
+}

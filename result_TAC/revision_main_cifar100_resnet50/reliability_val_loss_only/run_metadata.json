@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar100",
+  "model": "resnet50",
+  "method": "reliability_val_loss_only",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "reliability_val_loss_only",
+  "config_hash": "b2934c6dccce3d0243cd45d11fa344179c955204697cd54216ac79256bc132e5",
+  "scientific_config_hash": "3c24e1b2082014dacbf7af392951dd6af2ee4ab6ba26d7f20a43b7eed1747ec4",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-09-07T23:48:35.788231+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-09-07T22:48:15.064316+08:00",
+  "completed_at": "2026-09-07T23:48:35.788231+08:00"
+}
