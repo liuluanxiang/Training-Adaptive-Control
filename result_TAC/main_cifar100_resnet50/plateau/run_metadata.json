@@ -6,7 +6,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "plateau",
   "config_hash": "5af28fb74d3dd2e5b479329c1800363f625c306997b986b4098e04c0d662237f",
-  "scientific_config_hash": "0cb491574c9ff946541456341b1e442a148e9b434e90bc2aafb255694400eefe",
+  "scientific_config_hash": "79269e05a7f77e362c01e8fb14b24170c3e2b3440fa07c3651980e76004d9c0c",
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,

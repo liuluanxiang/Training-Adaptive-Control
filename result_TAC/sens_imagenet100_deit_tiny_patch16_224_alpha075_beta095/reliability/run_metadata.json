@@ -8,7 +8,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "reliability",
   "config_hash": "f55b087af0f0204f708ded7ce309f314c7a7a7bac6baa8ff29da1c843de5146a",
-  "scientific_config_hash": "c7d19c5f5e271f3d82253e5c73bf58669ea242e4a3f2dd30904f770bb5898019",
+  "scientific_config_hash": "96ef0a8600b9aa4f3b879bbc390907dfb926764050c4c5d459fd9333708472b8",
   "pretrained_checkpoint_sha256": "",
   "requested_num_workers": 4,
   "effective_num_workers": 2,

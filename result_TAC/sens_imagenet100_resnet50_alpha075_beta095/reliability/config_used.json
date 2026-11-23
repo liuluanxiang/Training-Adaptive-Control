@@ -3,7 +3,7 @@
   "model": "resnet50",
   "epochs": 120,
   "batch_size": 64,
-  "num_workers": 4,
+  "num_workers": 8,
   "optimizer": "sgd",
   "lr": 0.1,
   "momentum": 0.9,
@@ -27,7 +27,7 @@
     "lambda_u": 0.001
   },
   "experiment_name": "sens_imagenet100_resnet50_alpha075_beta095",
-  "experiment_type": "alpha_beta_sensitivity",
+  "experiment_type": "sensitivity",
   "methods": [
     "reliability"
   ],

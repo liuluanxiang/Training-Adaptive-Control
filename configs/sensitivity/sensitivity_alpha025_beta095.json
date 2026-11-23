@@ -9,9 +9,9 @@
   "seeds": [
     1
   ],
-  "epochs": 90,
+  "epochs": 120,
   "batch_size": 128,
-  "num_workers": 4,
+  "num_workers": 8,
   "optimizer": "sgd",
   "lr": 0.1,
   "momentum": 0.9,

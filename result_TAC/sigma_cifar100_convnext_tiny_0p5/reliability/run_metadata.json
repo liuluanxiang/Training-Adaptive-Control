@@ -8,7 +8,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "reliability",
   "config_hash": "f8e28ecb9260841ad4ba1813f92bedda3460bed26ab62a8d2f4698112c3fadac",
-  "scientific_config_hash": "960b039c412fceb2bf78fa49e7f6d80ae3c7a926899d19166d477d01b921b7ec",
+  "scientific_config_hash": "51f5c16820de28c9484fcb15a7a1bd202ba38a1d2af5de31bec1663b858b871a",
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,

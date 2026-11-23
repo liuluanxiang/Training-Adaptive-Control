@@ -3,7 +3,7 @@
   "model": "deit_tiny_patch16_224",
   "epochs": 120,
   "batch_size": 128,
-  "num_workers": 2,
+  "num_workers": 8,
   "optimizer": "adamw",
   "lr": 0.0005,
   "momentum": 0.9,
@@ -28,7 +28,7 @@
   },
   "pretrained_checkpoint": "data/pretrained/deit_tiny_patch16_224-a1311bcf.pth",
   "experiment_name": "sens_cifar10_deit_tiny_patch16_224_alpha075_beta090",
-  "experiment_type": "alpha_beta_sensitivity",
+  "experiment_type": "sensitivity",
   "methods": [
     "reliability"
   ],

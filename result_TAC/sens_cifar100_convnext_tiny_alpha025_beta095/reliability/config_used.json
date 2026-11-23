@@ -3,7 +3,7 @@
   "model": "convnext_tiny",
   "epochs": 120,
   "batch_size": 64,
-  "num_workers": 2,
+  "num_workers": 8,
   "optimizer": "adamw",
   "lr": 0.0005,
   "momentum": 0.9,
@@ -28,7 +28,7 @@
   },
   "signal_snapshot_device": "cpu",
   "experiment_name": "sens_cifar100_convnext_tiny_alpha025_beta095",
-  "experiment_type": "alpha_beta_sensitivity",
+  "experiment_type": "sensitivity",
   "methods": [
     "reliability"
   ],
