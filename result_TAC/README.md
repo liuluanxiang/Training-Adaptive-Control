@@ -2,4 +2,5 @@
 
 Experimental metric archive for Training-Adaptive-Control (TAC).
 
-This branch contains experiment outputs only (summaries, histories, calibration and risk-coverage curves, configs, and metadata). Large binary artifacts (*.pt) are omitted.
+Contains per-run summaries, histories, calibration bins, and risk–coverage curves.
+Large binary artifacts (`*.pt`) are omitted from this git copy.

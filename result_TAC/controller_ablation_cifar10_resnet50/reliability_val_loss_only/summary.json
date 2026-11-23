@@ -27,9 +27,9 @@
   "val_acc_last10_slope": 0.004320000000000002,
   "controller_alpha": 0.5,
   "controller_beta": 0.9,
-  "pb_final": 12.570983070721757,
-  "pd_final": 0.33730577151726965,
-  "rbar_final": -0.9202775961506212,
+  "pb_final": 0.1400954987687439,
+  "pd_final": 0.20762464393428298,
+  "rbar_final": -1.5127526503430773,
   "lr_reductions": 3,
   "first_lr_drop_epoch": 38,
   "runtime_seconds": 3339.8318918182936,
@@ -62,7 +62,7 @@
   "controller_overhead_percent": 0.062454014156570106,
   "epochs_saved_vs_120": 58,
   "max_epochs": 120,
-  "final_val_nll": 0.14298625969866927,
+  "final_val_nll": 0.2363395141802159,
   "compute_saved_runtime_seconds": 1638.7393193676558,
   "compute_saved_fraction": 0.49066521083954384
 }

@@ -20,16 +20,16 @@
   "test_confidence_std": 0.08289743959903717,
   "test_margin_mean": 0.9583053588867188,
   "test_entropy_mean": 0.0702630802989006,
-  "final_gen_gap_loss": 0.18796667768408853,
+  "final_gen_gap_loss": 0.1879666776840886,
   "final_gen_gap_acc": 0.05491252223610321,
   "late_degradation": 0.00012227461024472142,
   "aulc_val_acc": 0.8506446928100311,
   "val_acc_last10_slope": -2.5617794707904474e-06,
   "controller_alpha": 0.5,
   "controller_beta": 0.9,
-  "pb_final": 5.372714505149707,
-  "pd_final": 0.1881796549778742,
-  "rbar_final": -0.19589674113781638,
+  "pb_final": -0.000427822345843,
+  "pd_final": 0.1880746776840886,
+  "rbar_final": -0.8006652139957684,
   "lr_reductions": 0,
   "first_lr_drop_epoch": null,
   "runtime_seconds": 1083.3731763362885,
@@ -60,5 +60,5 @@
   "status": "COMPLETED",
   "run_id": "20260826_032947",
   "controller_overhead_percent": 0.08846275042710132,
-  "final_val_nll": 0.21705103607807913
+  "final_val_nll": 0.2170510360780791
 }
