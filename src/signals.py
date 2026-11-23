@@ -23,8 +23,9 @@ class RunningZ:
     """Online z-score via Welford updates using only past and current observations.
 
     Online statistics avoid future leakage from the full trajectory. The first
-    sample has no estimable std and returns 0 by protocol; later samples use
-    sample variance ``m2 / (n - 1)``.
+    sample has no estimable std, so the raw observation is returned (for PD this
+    preserves the first-epoch signal, including the epoch-mean mini-batch
+    gradient norm). Later samples use sample variance ``m2 / (n - 1)``.
     """
 
     def __init__(self, eps=1e-8):
@@ -44,7 +45,8 @@ class RunningZ:
         self.mean += d / self.n
         self.m2 += d * (x - self.mean)
         if self.n < 2:
-            return 0.0
+            # No sample std yet: keep the first observation instead of forcing 0.
+            return x
         std = max((self.m2 / (self.n - 1)) ** 0.5, self.eps)
         return (x - self.mean) / std
 

@@ -31,7 +31,7 @@ class ControllerConfig:
     ``p_lr``: patience before an LR reduction.
     ``epsilon``: minimum improvement required for a strict update.
     ``control_warmup_epochs``: skip reliability patience early on
-    (avoids locking onto the invalid RunningZ first-sample zero).
+    (avoids locking onto the first RunningZ observation before a sample std exists).
     """
 
     gamma: float = 0.5
