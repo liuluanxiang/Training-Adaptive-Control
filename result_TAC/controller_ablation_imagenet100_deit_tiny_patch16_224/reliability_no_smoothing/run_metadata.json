@@ -8,7 +8,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "reliability",
   "config_hash": "f55b087af0f0204f708ded7ce309f314c7a7a7bac6baa8ff29da1c843de5146a",
-  "scientific_config_hash": "96ef0a8600b9aa4f3b879bbc390907dfb926764050c4c5d459fd9333708472b8",
+  "scientific_config_hash": "b11471fe9134671c739a2c8f09ce99867fcfd673e9828dcd3a96f546302f99e0",
   "pretrained_checkpoint_sha256": "",
   "requested_num_workers": 4,
   "effective_num_workers": 2,
@@ -28,5 +28,6 @@
   "endpoint_test_aurc": 0.07352889092347593,
   "endpoint_test_eaurc": 0.05815803975817137,
   "endpoint_test_ece": 0.1244704859294867,
-  "endpoint_test_nll": 1.3954304910938418
+  "endpoint_test_nll": 1.3954304910938418,
+  "run_id": "run_ce162ba0ea"
 }

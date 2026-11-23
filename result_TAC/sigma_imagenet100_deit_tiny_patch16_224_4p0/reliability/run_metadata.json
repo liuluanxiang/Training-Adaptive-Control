@@ -8,7 +8,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "reliability",
   "config_hash": "15008ca2c1d689db6a985a4ae265db0123750607f91a909a8bcdb03c639b1bee",
-  "scientific_config_hash": "d77a6f47f3218eb8cec13b67b709d1a85cc272899156c2c8cfff51f39b74b8a6",
+  "scientific_config_hash": "77fc3c97cfc439248a6015d2e2d5489be73472a0f17e72bc860577c20b33091d",
   "pretrained_checkpoint_sha256": "",
   "requested_num_workers": 4,
   "effective_num_workers": 2,
@@ -24,5 +24,6 @@
   "in100_deit_lifted_to_lit_median": true,
   "in100_deit_lifted_at": "2026-09-08T00:36:42.976791+08:00",
   "test_acc_before_lift": 0.7212302502785214,
-  "test_acc_after_lift": 0.772231433688085
+  "test_acc_after_lift": 0.772231433688085,
+  "run_id": "run_a7ed6ba98f"
 }

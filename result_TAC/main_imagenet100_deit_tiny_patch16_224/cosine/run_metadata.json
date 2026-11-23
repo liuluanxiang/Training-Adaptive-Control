@@ -8,7 +8,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "cosine",
   "config_hash": "0a9a594a63faac128d20ba08100eb3801d1bd6b50008f553e8d50f0011c2286b",
-  "scientific_config_hash": "22e00e7ccebed6be30cb4ff4c4db5d7bf3ce8d6c131c4978617b29cea0898285",
+  "scientific_config_hash": "6d76724d3e871a46a50f34743961ee5b04c86cfff8e092502e8dbdfe6eae6e5b",
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
@@ -25,5 +25,6 @@
   "endpoint_test_aurc": 0.08313600794473837,
   "endpoint_test_eaurc": 0.06457848297875353,
   "endpoint_test_ece": 0.13720884590326363,
-  "endpoint_test_nll": 1.5621722582437514
+  "endpoint_test_nll": 1.5621722582437514,
+  "run_id": "run_a3809f2f55"
 }

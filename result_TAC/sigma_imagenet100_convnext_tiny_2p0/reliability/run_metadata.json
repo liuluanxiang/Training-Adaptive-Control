@@ -8,7 +8,7 @@
   "data_protocol_version": "deterministic_validation_v2",
   "variant": "reliability",
   "config_hash": "665fa6304fdd5bb743162bc0f321442b51bb233393ff4b0d2a93514b21750621",
-  "scientific_config_hash": "af07609c163e6f9366b0121e27e51e7f1a175c95eb7dbc3d07fe042c09e1b522",
+  "scientific_config_hash": "94bf34887a957af9454e8fc7bd7827fa27345b29faab1717cba0fab328d3639c",
   "pretrained_checkpoint_sha256": "",
   "requested_num_workers": 4,
   "effective_num_workers": 2,
@@ -20,5 +20,6 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "started_at": "2026-09-07T17:48:46.763336+08:00",
-  "completed_at": "2026-09-08T00:57:32.984146+08:00"
+  "completed_at": "2026-09-08T00:57:32.984146+08:00",
+  "run_id": "run_d557fbf381"
 }
