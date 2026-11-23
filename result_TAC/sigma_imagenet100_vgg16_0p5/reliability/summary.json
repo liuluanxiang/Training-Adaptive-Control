@@ -21,7 +21,7 @@
   "test_margin_mean": 0.8561784463400104,
   "test_entropy_mean": 0.32357575419964885,
   "final_gen_gap_loss": 0.6604798376825589,
-  "final_gen_gap_acc": 0.165619232717047,
+  "final_gen_gap_acc": 0.16384137181518288,
   "late_degradation": 0.0,
   "aulc_val_acc": 0.7436390199710992,
   "val_acc_last10_slope": 0.02064612581359392,
