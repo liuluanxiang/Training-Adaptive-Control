@@ -27,7 +27,7 @@
   "val_acc_last10_slope": 0.014059999999999994,
   "controller_alpha": 0.5,
   "controller_beta": 0.9,
-  "pb_final": 5.14397938961026,
+  "pb_final": 5.326778681615911,
   "pd_final": 0.07536092957068542,
   "rbar_final": -0.598012609816312,
   "lr_reductions": 4,
