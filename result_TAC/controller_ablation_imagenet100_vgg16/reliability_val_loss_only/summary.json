@@ -20,7 +20,7 @@
   "test_confidence_std": 0.1865643405005157,
   "test_margin_mean": 0.7802123394692296,
   "test_entropy_mean": 0.3856977181908881,
-  "final_gen_gap_loss": 0.9621300537769559,
+  "final_gen_gap_loss": 0.972221583167625,
   "final_gen_gap_acc": 0.1938489738336008,
   "late_degradation": 0.0041289009417114775,
   "aulc_val_acc": 0.6387000479256181,
@@ -62,5 +62,5 @@
   "run_id": "run_1c58a8164b",
   "controller_overhead_percent": 0.002560190029848382,
   "max_epochs": 120,
-  "final_val_nll": 0.9836304330161256
+  "final_val_nll": 0.9937986150377376
 }

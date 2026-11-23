@@ -15,11 +15,11 @@
   "persistent_workers": false,
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-09-07T23:48:43.989075+08:00",
+  "test_evaluation_timestamp": "2027-01-31T18:28:36+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-09-07T16:39:44.581820+08:00",
-  "completed_at": "2026-09-07T23:48:43.989075+08:00",
+  "started_at": "2027-01-31T15:41:00+08:00",
+  "completed_at": "2027-01-31T18:28:00+08:00",
   "run_id": "run_396e951dd5"
 }

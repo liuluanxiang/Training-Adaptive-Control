@@ -6,8 +6,8 @@
   "method": "reliability",
   "epochs_run": 120,
   "best_epoch": 119,
-  "best_val_acc": 0.781,
-  "final_val_acc": 0.7776,
+  "best_val_acc": 0.7736,
+  "final_val_acc": 0.77,
   "test_acc": 0.7754,
   "test_top5_acc": 0.938,
   "test_nll": 0.8377251182293451,
@@ -20,7 +20,7 @@
   "test_confidence_std": 0.2550272789731615,
   "test_margin_mean": 0.7561506182975488,
   "test_entropy_mean": 0.7333072104880846,
-  "final_gen_gap_loss": 0.822874301851537,
+  "final_gen_gap_loss": 0.8170166701375885,
   "final_gen_gap_acc": 0.16214793966124855,
   "late_degradation": 0.0047999999999999154,
   "aulc_val_acc": 0.6927948203818387,
@@ -60,7 +60,7 @@
   "run_id": "run_caa3f3861a",
   "controller_overhead_percent": 0.12825716894137895,
   "max_epochs": 120,
-  "final_val_nll": 0.8938447392722364,
+  "final_val_nll": 0.8938513130805308,
   "pb_auc": 6.182077374071234,
   "pd_auc": 0.8223400551725705
 }

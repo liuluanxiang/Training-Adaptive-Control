@@ -15,7 +15,7 @@
   "test_mce": 0.23599946492891175,
   "test_brier": 0.06608546491307273,
   "test_aurc": 0.00503071082903538,
-  "test_eaurc": 0.003936748134820721,
+  "test_eaurc": 0.003956104416328776,
   "test_confidence_mean": 0.9798174871634894,
   "test_confidence_std": 0.07770057090214826,
   "test_margin_mean": 0.9632268970803677,

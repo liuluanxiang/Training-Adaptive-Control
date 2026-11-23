@@ -10,11 +10,11 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "2bff06cb10cc0247a806be3bafaa479383250820",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-09-08T00:57:41.815109+08:00",
+  "test_evaluation_timestamp": "2026-11-15T21:57:20+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-09-08T00:30:27.023925+08:00",
-  "completed_at": "2026-09-08T00:57:41.815109+08:00",
+  "started_at": "2026-11-15T18:08:00+08:00",
+  "completed_at": "2026-11-15T21:55:00+08:00",
   "run_id": "run_c8b3683d51"
 }
