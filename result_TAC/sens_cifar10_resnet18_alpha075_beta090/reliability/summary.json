@@ -58,10 +58,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_e717d5b388",
-  "controller_overhead_percent": 0.08597595511724193,
   "max_epochs": 120,
   "final_val_nll": 0.169504723929677,
   "pb_auc": 5.1465495821567435,
   "pd_auc": 0.19116061544249555,
-  "experiment_name": "sens_cifar10_resnet18_alpha075_beta090"
+  "experiment_name": "sens_cifar10_resnet18_alpha075_beta090",
+  "seed": 1
 }

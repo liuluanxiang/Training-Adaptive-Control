@@ -60,10 +60,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_56c5a13d9d",
-  "controller_overhead_percent": 0.08126159581097131,
   "max_epochs": 120,
   "final_val_nll": 1.0208764687150402,
   "pb_auc": 2.8464922538876567,
   "pd_auc": 0.5830642299928694,
-  "experiment_name": "sens_cifar100_deit_tiny_patch16_224_alpha025_beta095"
+  "experiment_name": "sens_cifar100_deit_tiny_patch16_224_alpha025_beta095",
+  "seed": 2
 }

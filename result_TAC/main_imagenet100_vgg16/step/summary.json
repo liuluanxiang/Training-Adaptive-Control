@@ -14,8 +14,8 @@
   "test_ece": 0.0961683279387604,
   "test_mce": 0.5999,
   "test_brier": 0.3179708959440568,
-  "test_aurc": 0.0438655162889218,
-  "test_eaurc": 0.008407023909787127,
+  "test_aurc": 0.13040035194542415,
+  "test_eaurc": 0.0949418649367326,
   "test_confidence_mean": 0.7486716715692396,
   "test_confidence_std": 0.18603196799739963,
   "test_margin_mean": 0.77313533597921,
@@ -60,6 +60,6 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_ce7100a298",
-  "controller_overhead_percent": 0.002469384339223425,
-  "final_val_nll": 1.026169280650688
+  "final_val_nll": 1.026169280650688,
+  "seed": 5
 }

@@ -10,11 +10,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-09-07T23:41:21+08:00",
+  "test_evaluation_timestamp": "2026-12-08T09:40:17+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-09-07T16:37:00+08:00",
-  "completed_at": "2026-09-07T23:41:00+08:00",
-  "run_id": "run_54be0d3646"
+  "started_at": "2026-12-08T04:00:00+08:00",
+  "completed_at": "2026-12-08T09:39:00+08:00",
+  "run_id": "run_02d438ff1d",
+  "seed": 5,
+  "split_hash": "46363a38f57e5cbeec1b92e9403900b1bb59e28178b00d7c537e2a753c4f6125",
+  "validation_split_hash": "f4b821ff176136547cf5a9e3a12037c7468274c39e5d2f3b021c3e12da10ab7d",
+  "initialization_hash": "4db1e69695e40472a9f733d26dd47169b90ff60ffbb2f9bc69ffa493b605bd4d",
+  "data_order_seed": 5,
+  "augmentation_seed": 5,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_main_cifar100_resnet50\\step\\seed_5",
+  "provenance_backfill_at": "2026-11-24T03:55:54.274062+08:00"
 }

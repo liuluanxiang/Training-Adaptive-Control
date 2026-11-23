@@ -63,10 +63,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_3fb5549490",
-  "controller_overhead_percent": 0.009550108980039182,
   "max_epochs": 120,
   "final_val_nll": 1.813383596295871,
   "pb_auc": 5.21196098388166,
   "pd_auc": 0.791020632681794,
-  "experiment_name": "sens_imagenet100_deit_tiny_patch16_224_alpha075_beta090"
+  "experiment_name": "sens_imagenet100_deit_tiny_patch16_224_alpha075_beta090",
+  "seed": 1
 }

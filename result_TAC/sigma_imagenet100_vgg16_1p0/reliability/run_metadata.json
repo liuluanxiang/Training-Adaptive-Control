@@ -12,11 +12,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-10-01T04:02:38+08:00",
+  "test_evaluation_timestamp": "2026-11-19T15:03:12+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-09-30T20:01:00+08:00",
-  "completed_at": "2026-10-01T04:00:00+08:00",
-  "run_id": "run_b86ed9079d"
+  "started_at": "2026-11-19T09:15:00+08:00",
+  "completed_at": "2026-11-19T15:01:00+08:00",
+  "run_id": "run_841db38030",
+  "seed": 4,
+  "split_hash": "cfe2317e90fa1446fc6959a93b856d1402954cfd944b7f4ac88e1987b42cc15e",
+  "validation_split_hash": "c360ecfca62c813346148644e2caffd1c31ecb55141c32f3ab517d90f7f0e08e",
+  "initialization_hash": "fb85168f6aa90f54201afd640578f012709c3811a7d113815c08768163c92d1b",
+  "data_order_seed": 4,
+  "augmentation_seed": 4,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_sigma_imagenet100_vgg16_1p0\\reliability\\seed_4",
+  "provenance_backfill_at": "2026-11-24T03:55:55.766165+08:00"
 }

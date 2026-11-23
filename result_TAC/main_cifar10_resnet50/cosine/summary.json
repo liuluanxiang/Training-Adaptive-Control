@@ -14,8 +14,8 @@
   "test_ece": 0.0372719063895955,
   "test_mce": 0.674987500875,
   "test_brier": 0.0945773229581687,
-  "test_aurc": 0.0063116437465451,
-  "test_eaurc": 0.004529780391269636,
+  "test_aurc": 0.022754229039457972,
+  "test_eaurc": 0.020972367374785243,
   "test_confidence_mean": 0.9151650402633712,
   "test_confidence_std": 0.08397608250379562,
   "test_margin_mean": 0.9566332101821899,
@@ -58,6 +58,6 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_f32caac6d5",
-  "controller_overhead_percent": 0.059786208765995295,
-  "final_val_nll": 0.2546289523010254
+  "final_val_nll": 0.2546289523010254,
+  "seed": 3
 }

@@ -189,10 +189,17 @@ def existing_scientific_hash(out_dir, summary):
         return None
 
 
-def planned_output_dir(cfg, method, seed):
-    """Build the run directory under the ``experiment/method/seed`` layout."""
+def planned_output_dir(cfg, method, seed=None):
+    """Build the run directory under the flat ``experiment/method`` layout."""
 
-    return Path(cfg["results_dir"]) / cfg["experiment_name"] / method / f"seed_{seed}"
+    return Path(cfg["results_dir"]) / cfg["experiment_name"] / method
+
+
+def _rng_seed(cfg):
+    """RNG seed from config (not a directory level)."""
+
+    seeds = cfg.get("seeds") or [0]
+    return int(seeds[0])
 
 
 def planned_runs(cfg, existing_policy):
@@ -200,47 +207,47 @@ def planned_runs(cfg, existing_policy):
 
     runs = []
     run_index = 0
+    seed = _rng_seed(cfg)
     for method in cfg["methods"]:
-        for seed in cfg["seeds"]:
-            run_index += 1
-            out_dir = planned_output_dir(cfg, method, int(seed))
-            artifacts = result_artifacts(out_dir)
-            has_complete_artifact_set = set(RESULT_ARTIFACTS).issubset(artifacts)
-            if not artifacts:
-                status = "will_run"
-            elif existing_policy == "skip":
-                if has_complete_artifact_set:
-                    summary = load_existing_summary(out_dir)
-                    actual_hash = existing_scientific_hash(out_dir, summary)
-                    expected_hash = scientific_run_hash(cfg, method, int(seed))
-                    status = "skip_completed" if actual_hash == expected_hash else "error_config_mismatch"
-                else:
-                    status = "skip_partial"
-            elif existing_policy == "rerun-partial":
-                if has_complete_artifact_set:
-                    summary = load_existing_summary(out_dir)
-                    actual_hash = existing_scientific_hash(out_dir, summary)
-                    expected_hash = scientific_run_hash(cfg, method, int(seed))
-                    status = "skip_completed" if actual_hash == expected_hash else "archive_mismatch_then_run"
-                else:
-                    status = "archive_partial_then_run"
-            elif existing_policy == "error":
-                status = "error_existing"
-            elif existing_policy == "archive":
-                status = "archive_then_run"
-            elif existing_policy == "overwrite":
-                status = "overwrite"
+        run_index += 1
+        out_dir = planned_output_dir(cfg, method)
+        artifacts = result_artifacts(out_dir)
+        has_complete_artifact_set = set(RESULT_ARTIFACTS).issubset(artifacts)
+        if not artifacts:
+            status = "will_run"
+        elif existing_policy == "skip":
+            if has_complete_artifact_set:
+                summary = load_existing_summary(out_dir)
+                actual_hash = existing_scientific_hash(out_dir, summary)
+                expected_hash = scientific_run_hash(cfg, method, seed)
+                status = "skip_completed" if actual_hash == expected_hash else "error_config_mismatch"
             else:
-                status = "unknown"
-            runs.append({
-                "run_index": run_index,
-                "experiment": cfg["experiment_name"],
-                "method": method,
-                "seed": int(seed),
-                "output_dir": str(out_dir),
-                "artifacts": artifacts,
-                "status": status,
-            })
+                status = "skip_partial"
+        elif existing_policy == "rerun-partial":
+            if has_complete_artifact_set:
+                summary = load_existing_summary(out_dir)
+                actual_hash = existing_scientific_hash(out_dir, summary)
+                expected_hash = scientific_run_hash(cfg, method, seed)
+                status = "skip_completed" if actual_hash == expected_hash else "archive_mismatch_then_run"
+            else:
+                status = "archive_partial_then_run"
+        elif existing_policy == "error":
+            status = "error_existing"
+        elif existing_policy == "archive":
+            status = "archive_then_run"
+        elif existing_policy == "overwrite":
+            status = "overwrite"
+        else:
+            status = "unknown"
+        runs.append({
+            "run_index": run_index,
+            "experiment": cfg["experiment_name"],
+            "method": method,
+            "seed": seed,
+            "output_dir": str(out_dir),
+            "artifacts": artifacts,
+            "status": status,
+        })
     return runs
 
 
@@ -249,7 +256,8 @@ def archive_existing_output(out_dir, archive_root):
 
     out_dir = Path(out_dir)
     archive_root = Path(archive_root)
-    relative = out_dir.relative_to(out_dir.parents[2])
+    # Flat layout: results_dir / experiment / method
+    relative = out_dir.relative_to(out_dir.parents[1])
     target = archive_root / relative
     if target.exists():
         suffix = 1
@@ -1208,11 +1216,6 @@ def run_one(cfg, method, seed, progress, run_index=1, total_runs=1, existing_pol
         "status": "COMPLETED",
         "run_id": run_id or "",
     }
-    summary["controller_overhead_percent"] = (
-        100.0 * summary["controller_total_seconds"]
-        / max(summary["training_wall_clock_seconds"], 1e-12)
-    )
-
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     metadata["status"] = "COMPLETED"
     metadata["completed_at"] = datetime.now().astimezone().isoformat()
@@ -1323,7 +1326,7 @@ def main():
         cfg["experiment_name"] = f"{args.experiment_prefix}{cfg['experiment_name']}{args.experiment_suffix}"
     all_rows = []
     run_id = make_run_id()
-    total_runs = len(cfg["methods"]) * len(cfg["seeds"])
+    total_runs = len(cfg["methods"])
     state_path = Path(args.progress_state) if args.progress_state else Path(cfg["results_dir"]) / "progress_state.json"
     dashboard_path = None
     if not args.no_dashboard:
@@ -1347,7 +1350,7 @@ def main():
     )
     progress.log(
         f"[config] {args.config} | experiment={cfg['experiment_name']} | "
-        f"methods={len(cfg['methods'])} | seeds={len(cfg['seeds'])} | total_runs={total_runs} | "
+        f"methods={len(cfg['methods'])} | total_runs={total_runs} | rng_seed={_rng_seed(cfg)} | "
         f"epochs_per_run={int(cfg['epochs'])} | progress={args.progress}{batch_note} | "
         f"existing={args.existing} | run_id={run_id}"
     )
@@ -1365,7 +1368,7 @@ def main():
         for row in collisions:
             progress.log(
                 f"[existing-results] run={row['run_index']}/{total_runs} | "
-                f"{row['experiment']} | {row['method']} | seed={row['seed']} | "
+                f"{row['experiment']} | {row['method']} | "
                 f"status={row['status']} | artifacts={','.join(row['artifacts'])}"
             )
     else:
@@ -1378,37 +1381,37 @@ def main():
 
     try:
         run_index = 0
+        rng_seed = _rng_seed(cfg)
         for method in cfg["methods"]:
-            for seed in cfg["seeds"]:
-                run_index += 1
-                row = run_one(
-                    cfg,
-                    method,
-                    int(seed),
-                    progress,
-                    run_index,
-                    total_runs,
-                    existing_policy=args.existing,
-                    run_id=run_id,
-                )
-                if row is not None:
-                    all_rows.append(row)
+            run_index += 1
+            row = run_one(
+                cfg,
+                method,
+                rng_seed,
+                progress,
+                run_index,
+                total_runs,
+                existing_policy=args.existing,
+                run_id=run_id,
+            )
+            if row is not None:
+                all_rows.append(row)
 
-        # Each run writes its own directory; merge experiment/global summaries after.
+        # Each method writes its own flat directory; merge summaries after.
         exp_dir = Path(cfg["results_dir"]) / cfg["experiment_name"]
         exp_dir.mkdir(parents=True, exist_ok=True)
         new_df = pd.DataFrame(all_rows)
-        summary_by_seed_path = exp_dir / "summary_by_seed.csv"
-        if summary_by_seed_path.exists() and not new_df.empty:
-            old_summary = pd.read_csv(summary_by_seed_path)
-            summary_by_seed = pd.concat([old_summary, new_df], ignore_index=True)
+        summary_path = exp_dir / "summary_by_method.csv"
+        if summary_path.exists() and not new_df.empty:
+            old_summary = pd.read_csv(summary_path)
+            summary_by_method = pd.concat([old_summary, new_df], ignore_index=True)
             keep = "last" if args.existing in ["rerun-partial", "archive", "overwrite"] else "first"
-            summary_by_seed = summary_by_seed.drop_duplicates(["experiment", "method", "seed"], keep=keep)
-        elif summary_by_seed_path.exists():
-            summary_by_seed = pd.read_csv(summary_by_seed_path)
+            summary_by_method = summary_by_method.drop_duplicates(["experiment", "method"], keep=keep)
+        elif summary_path.exists():
+            summary_by_method = pd.read_csv(summary_path)
         else:
-            summary_by_seed = new_df
-        summary_by_seed.to_csv(summary_by_seed_path, index=False)
+            summary_by_method = new_df
+        summary_by_method.to_csv(summary_path, index=False)
 
         master_path = Path(cfg["results_dir"]) / "master_summary.csv"
         if master_path.exists():
@@ -1420,7 +1423,7 @@ def main():
                 old.loc[missing, "experiment_type"] = old.loc[missing, "experiment"].map(infer_experiment_type)
             combined = pd.concat([old, new_df], ignore_index=True)
             keep = "last" if args.existing in ["rerun-partial", "archive", "overwrite"] else "first"
-            combined = combined.drop_duplicates(["experiment", "method", "seed"], keep=keep)
+            combined = combined.drop_duplicates(["experiment", "method"], keep=keep)
         else:
             combined = new_df
         combined.to_csv(master_path, index=False)

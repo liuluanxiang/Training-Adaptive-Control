@@ -15,11 +15,19 @@
   "persistent_workers": false,
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2027-02-23T23:02:06+08:00",
+  "test_evaluation_timestamp": "2027-07-04T22:48:27+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2027-02-23T16:48:00+08:00",
-  "completed_at": "2027-02-23T22:59:00+08:00",
-  "run_id": "run_da27d8a759"
+  "started_at": "2027-07-04T19:21:00+08:00",
+  "completed_at": "2027-07-04T22:47:00+08:00",
+  "run_id": "run_817bd16c1c",
+  "seed": 1,
+  "split_hash": "d048ddccc81bb9d79438302f1d741d7becfd7fbc6eb5c239c51da9132eda4dbe",
+  "validation_split_hash": "c148ff32c5e9c37de7e5574fe9ce92cb7e481eb33ef08ed99f6f39e9e69ff2b2",
+  "initialization_hash": "805458c7a54415c33b08ed90577bf16550327dac158adeab9cd18efe35352ffa",
+  "data_order_seed": 1,
+  "augmentation_seed": 1,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_sigma_imagenet100_convnext_tiny_0p5\\reliability\\seed_1",
+  "provenance_backfill_at": "2026-11-24T03:55:55.696729+08:00"
 }

@@ -63,10 +63,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_49265fb9bf",
-  "controller_overhead_percent": 0.034868378382477666,
   "max_epochs": 120,
   "final_val_nll": 1.403684682260966,
   "pb_auc": 10.34948268941071,
   "pd_auc": 0.7438799121429076,
-  "experiment_name": "sens_imagenet100_convnext_tiny_alpha050_beta080"
+  "experiment_name": "sens_imagenet100_convnext_tiny_alpha050_beta080",
+  "seed": 1
 }

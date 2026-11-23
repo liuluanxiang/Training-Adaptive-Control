@@ -12,11 +12,19 @@
   "pretrained_checkpoint_sha256": "a1311bcf4f24e3c95adaa75535db67bc4412d95535b98f7c1dfd1164dda41c97",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-10-05T11:40:11+08:00",
+  "test_evaluation_timestamp": "2027-03-11T10:05:13+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-10-05T09:00:00+08:00",
-  "completed_at": "2026-10-05T11:37:00+08:00",
-  "run_id": "run_649c04835b"
+  "started_at": "2027-03-11T02:05:00+08:00",
+  "completed_at": "2027-03-11T10:03:00+08:00",
+  "run_id": "run_7ef0e555bc",
+  "seed": 4,
+  "split_hash": "a0f86c48be23b1127e46a01317ce1f2ccaeb34885d932905840a437355a288f2",
+  "validation_split_hash": "10be43c385e7cc3c990e29355fb4bf6ef8be313df276b2e766e1d923326897ec",
+  "initialization_hash": "388614b7e493be059ff0af13dbc57db26b008785522fa2746ce35ae5260ae540",
+  "data_order_seed": 4,
+  "augmentation_seed": 4,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_main_cifar10_deit_tiny_patch16_224\\reliability\\seed_4",
+  "provenance_backfill_at": "2026-11-24T03:55:54.323741+08:00"
 }

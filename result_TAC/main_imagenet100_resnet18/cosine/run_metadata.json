@@ -12,11 +12,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-12-17T12:25:54+08:00",
+  "test_evaluation_timestamp": "2027-06-19T05:00:22+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-12-17T07:04:00+08:00",
-  "completed_at": "2026-12-17T12:23:00+08:00",
-  "run_id": "run_c964d0b4d1"
+  "started_at": "2027-06-18T21:52:00+08:00",
+  "completed_at": "2027-06-19T04:59:00+08:00",
+  "run_id": "run_0eb1885d59",
+  "seed": 3,
+  "split_hash": "5cd99918086a7b405e394d928cce46a27d469bd638b2711788c7fcbf8d4def92",
+  "validation_split_hash": "b0c330ce9049bdcfd2ac72bc5f950ceb35d2aee121134396939481a6bd18720c",
+  "initialization_hash": "7176c929b617210ab9472e4dda1e4965304f02cd874e8619a98015337c8214d9",
+  "data_order_seed": 3,
+  "augmentation_seed": 3,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_main_imagenet100_resnet18\\cosine\\seed_3",
+  "provenance_backfill_at": "2026-11-24T03:55:54.432675+08:00"
 }

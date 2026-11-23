@@ -12,11 +12,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2027-06-03T04:35:32+08:00",
+  "test_evaluation_timestamp": "2027-07-05T10:53:36+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2027-06-03T02:00:00+08:00",
-  "completed_at": "2027-06-03T04:34:00+08:00",
-  "run_id": "run_7928408164"
+  "started_at": "2027-07-05T02:17:00+08:00",
+  "completed_at": "2027-07-05T10:52:00+08:00",
+  "run_id": "run_353231926d",
+  "seed": 5,
+  "split_hash": "b15dab14f024a2c9259733f99bbb99ea576eff9134984fe7cb4738945357887b",
+  "validation_split_hash": "c8da23b166040a9080661f26156943e90cf675722920c721b78588f006f30cdf",
+  "initialization_hash": "c406c2efad5a6656fc34668c89fadc681da1143c8ffb637320973bfeac022c2c",
+  "data_order_seed": 5,
+  "augmentation_seed": 5,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_main_imagenet100_vgg16\\plateau\\seed_5",
+  "provenance_backfill_at": "2026-11-24T03:55:54.466614+08:00"
 }

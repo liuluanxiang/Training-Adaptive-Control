@@ -12,11 +12,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2027-01-30T16:41:49+08:00",
+  "test_evaluation_timestamp": "2027-06-17T12:43:13+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2027-01-30T10:45:00+08:00",
-  "completed_at": "2027-01-30T16:41:00+08:00",
-  "run_id": "run_3967cdfd3a"
+  "started_at": "2027-06-17T06:58:00+08:00",
+  "completed_at": "2027-06-17T12:41:00+08:00",
+  "run_id": "run_34ce0a5ef9",
+  "seed": 2,
+  "split_hash": "676ee631552043ea25c38a04a3b09d6d01e9448cf7aad1fa87a1bce968b937a6",
+  "validation_split_hash": "958f500b15c1731391be15ca1a457bf0ddd8072c281ce40daf6cb45bb89b8f84",
+  "initialization_hash": "56e35951b8f5e2808bfe0e6683db1658e07596309f4bb22ddbf563a48f5b66f2",
+  "data_order_seed": 2,
+  "augmentation_seed": 2,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_sigma_cifar100_convnext_tiny_4p0\\reliability\\seed_2",
+  "provenance_backfill_at": "2026-11-24T03:55:54.825212+08:00"
 }

@@ -10,11 +10,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "2bff06cb10cc0247a806be3bafaa479383250820",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2027-04-26T02:31:18+08:00",
+  "test_evaluation_timestamp": "2026-12-09T11:03:12+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2027-04-25T20:24:00+08:00",
-  "completed_at": "2027-04-26T02:30:00+08:00",
-  "run_id": "run_adb9102e3c"
+  "started_at": "2026-12-09T02:42:00+08:00",
+  "completed_at": "2026-12-09T11:00:00+08:00",
+  "run_id": "run_4783aaa7d8",
+  "seed": 3,
+  "split_hash": "e1eef9178a6ed90e4cbb889ae71221859e7d41974a4e0ab9903e91b740ad5f00",
+  "validation_split_hash": "5a455c3cde7dd1b1ab3adf41eda3761c790070dd55df2f36c7da876cb79ef192",
+  "initialization_hash": "4dc0117c7fe4b77c361dbe13af15a6844882459022585d75905bea031f6478ca",
+  "data_order_seed": 3,
+  "augmentation_seed": 3,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_pd_component_ablation_cifar10_resnet18\\reliability_pd_v_only\\seed_3",
+  "provenance_backfill_at": "2026-11-24T03:55:54.488462+08:00"
 }

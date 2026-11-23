@@ -58,9 +58,9 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_d39373283f",
-  "controller_overhead_percent": 0.12825716894137895,
   "max_epochs": 120,
   "final_val_nll": 0.8536755201495774,
   "pb_auc": 6.182077374071234,
-  "pd_auc": 0.8223400551725705
+  "pd_auc": 0.8223400551725705,
+  "seed": 1
 }

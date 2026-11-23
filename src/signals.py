@@ -45,8 +45,8 @@ class RunningZ:
         self.mean += d / self.n
         self.m2 += d * (x - self.mean)
         if self.n < 2:
-            # No sample std yet: keep the first observation instead of forcing 0.
-            return x
+            # No sample std yet: return 0.0 (matches recorded run commits).
+            return 0.0
         std = max((self.m2 / (self.n - 1)) ** 0.5, self.eps)
         return (x - self.mean) / std
 

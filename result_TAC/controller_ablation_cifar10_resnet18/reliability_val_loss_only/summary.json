@@ -58,7 +58,7 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_16956ccdcd",
-  "controller_overhead_percent": 0.0879136833333786,
   "max_epochs": 120,
-  "final_val_nll": 0.1966206065281903
+  "final_val_nll": 0.1966206065281903,
+  "seed": 3
 }

@@ -60,10 +60,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_fc8d593d2a",
-  "controller_overhead_percent": 0.10007008443433842,
   "max_epochs": 120,
   "final_val_nll": 1.5021081497838102,
   "pb_auc": 11.985635479694489,
   "pd_auc": 0.4563781019373729,
-  "experiment_name": "sens_cifar100_convnext_tiny_alpha050_beta080"
+  "experiment_name": "sens_cifar100_convnext_tiny_alpha050_beta080",
+  "seed": 2
 }

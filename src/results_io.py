@@ -1,4 +1,14 @@
-"""Unified experiment-result I/O with legacy type compatibility."""
+"""Unified experiment-result I/O for the flat ``experiment/method`` layout.
+
+Archive and training outputs use::
+
+    {results_dir}/{experiment}/{method}/history.csv
+    {results_dir}/{experiment}/{method}/summary.json
+
+There is no ``seed_*`` directory level.
+"""
+
+from __future__ import annotations
 
 import json
 from pathlib import Path
@@ -16,9 +26,13 @@ def infer_experiment_type(experiment_name):
         return "main"
     if name.startswith("supp"):
         return "supplement"
-    if name.startswith("ablation"):
+    if (
+        name.startswith("ablation")
+        or name.startswith("controller_ablation")
+        or name.startswith("pd_component")
+    ):
         return "ablation"
-    if name.startswith("sens") or name.startswith("sensitivity"):
+    if name.startswith("sens") or name.startswith("sensitivity") or name.startswith("sigma"):
         return "sensitivity"
     return "unspecified"
 
@@ -49,18 +63,21 @@ def filter_quick(df, include_quick=False):
 
 
 def collect_histories(results_dir, include_quick=False):
-    """Recursively aggregate per-epoch histories across runs."""
+    """Aggregate per-epoch histories from ``{experiment}/{method}/history.csv``."""
 
     frames = []
-    for path in Path(results_dir).glob("*/*/seed_*/history.csv"):
+    for path in Path(results_dir).glob("*/*/history.csv"):
+        method_dir = path.parent
+        exp_dir = method_dir.parent
+        # Skip any accidental nested seed directories if present on disk.
+        if method_dir.name.startswith("seed_"):
+            continue
         try:
             df = pd.read_csv(path)
             if "experiment" not in df.columns:
-                df["experiment"] = path.parts[-4]
+                df["experiment"] = exp_dir.name
             if "method" not in df.columns:
-                df["method"] = path.parts[-3]
-            if "seed" not in df.columns:
-                df["seed"] = int(path.parts[-2].replace("seed_", ""))
+                df["method"] = method_dir.name
             if "experiment_type" not in df.columns:
                 df["experiment_type"] = infer_experiment_type(df["experiment"].iloc[0])
             frames.append(df)
@@ -72,7 +89,7 @@ def collect_histories(results_dir, include_quick=False):
 
 
 def collect_summaries(results_dir, include_quick=False):
-    """Prefer the master summary table; otherwise rebuild from ``summary.json`` files."""
+    """Prefer the master summary table; otherwise rebuild from flat ``summary.json`` files."""
 
     results_dir = Path(results_dir)
     master = results_dir / "master_summary.csv"
@@ -83,12 +100,15 @@ def collect_summaries(results_dir, include_quick=False):
             pass
 
     rows = []
-    for path in results_dir.glob("*/*/seed_*/summary.json"):
+    for path in results_dir.glob("*/*/summary.json"):
+        method_dir = path.parent
+        exp_dir = method_dir.parent
+        if method_dir.name.startswith("seed_"):
+            continue
         try:
             row = json.loads(path.read_text(encoding="utf-8"))
-            row.setdefault("experiment", path.parts[-4])
-            row.setdefault("method", path.parts[-3])
-            row.setdefault("seed", int(path.parts[-2].replace("seed_", "")))
+            row.setdefault("experiment", exp_dir.name)
+            row.setdefault("method", method_dir.name)
             row.setdefault("experiment_type", infer_experiment_type(row.get("experiment")))
             rows.append(row)
         except Exception:

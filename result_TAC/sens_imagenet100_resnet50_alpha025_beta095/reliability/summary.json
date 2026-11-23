@@ -60,10 +60,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_47c5a0b348",
-  "controller_overhead_percent": 0.013921702088643849,
   "max_epochs": 120,
   "final_val_nll": 0.8543386378830466,
   "pb_auc": 8.20943152526281,
   "pd_auc": 0.39645675624681614,
-  "experiment_name": "sens_imagenet100_resnet50_alpha025_beta095"
+  "experiment_name": "sens_imagenet100_resnet50_alpha025_beta095",
+  "seed": 5
 }

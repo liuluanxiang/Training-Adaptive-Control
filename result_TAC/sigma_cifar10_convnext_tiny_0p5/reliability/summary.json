@@ -60,9 +60,9 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_f6a40ad8c8",
-  "controller_overhead_percent": 0.09856549340499232,
   "max_epochs": 120,
   "final_val_nll": 0.4519326197335781,
   "sigma_multiplier": 0.5,
-  "prior_sigma": 0.025
+  "prior_sigma": 0.025,
+  "seed": 4
 }

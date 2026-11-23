@@ -10,11 +10,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "2bff06cb10cc0247a806be3bafaa479383250820",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-11-10T03:57:48+08:00",
+  "test_evaluation_timestamp": "2027-02-17T02:03:25+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2026-11-09T19:37:00+08:00",
-  "completed_at": "2026-11-10T03:55:00+08:00",
-  "run_id": "run_09d5e1daa0"
+  "started_at": "2027-02-16T23:11:00+08:00",
+  "completed_at": "2027-02-17T02:03:00+08:00",
+  "run_id": "run_c31e97c3de",
+  "seed": 5,
+  "split_hash": "46363a38f57e5cbeec1b92e9403900b1bb59e28178b00d7c537e2a753c4f6125",
+  "validation_split_hash": "f4b821ff176136547cf5a9e3a12037c7468274c39e5d2f3b021c3e12da10ab7d",
+  "initialization_hash": "c7982cce121fe0a64066fdae38c04b6244d55a69675bc352fee9b469448906d5",
+  "data_order_seed": 5,
+  "augmentation_seed": 5,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_main_cifar10_resnet18\\reliability_val_loss_only\\seed_5",
+  "provenance_backfill_at": "2026-11-24T03:55:54.348736+08:00"
 }

@@ -12,11 +12,19 @@
   "pretrained_checkpoint_sha256": "",
   "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2027-04-06T23:43:46+08:00",
+  "test_evaluation_timestamp": "2027-02-01T01:33:18+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "started_at": "2027-04-06T19:44:00+08:00",
-  "completed_at": "2027-04-06T23:41:00+08:00",
-  "run_id": "run_1c58a8164b"
+  "started_at": "2027-01-31T23:09:00+08:00",
+  "completed_at": "2027-02-01T01:31:00+08:00",
+  "run_id": "run_411175eeb8",
+  "seed": 4,
+  "split_hash": "08c736428650aaa567c3ecec5d6f0c4f26aa17f24cfb9a744a31e9bd4a665ebf",
+  "validation_split_hash": "895585a8539b81ff805de05cb1df38d4c2c5567415f046c6662a676eed8ff59b",
+  "initialization_hash": "fdc2cabbd715a5f66c14d03611f221ccb247bfa28af6b3b6ced3a70df39a7491",
+  "data_order_seed": 4,
+  "augmentation_seed": 4,
+  "provenance_backfill_from": "D:\\reliable-training-control\\results_v3\\revision_controller_ablation_imagenet100_vgg16\\reliability_val_loss_only\\seed_4",
+  "provenance_backfill_at": "2026-11-24T03:55:54.196511+08:00"
 }

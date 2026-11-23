@@ -60,10 +60,10 @@
   "test_used_during_training": false,
   "status": "COMPLETED",
   "run_id": "run_123101b267",
-  "controller_overhead_percent": 0.0035720723804784785,
   "max_epochs": 120,
   "final_val_nll": 0.9085276028829098,
   "pb_auc": 5.321080896441677,
   "pd_auc": 0.2581914518910275,
-  "experiment_name": "sens_imagenet100_vgg16_alpha075_beta095"
+  "experiment_name": "sens_imagenet100_vgg16_alpha075_beta095",
+  "seed": 4
 }
