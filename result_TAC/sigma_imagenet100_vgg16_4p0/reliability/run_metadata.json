@@ -1,0 +1,22 @@
+{
+  "dataset": "imagenet100",
+  "model": "vgg16",
+  "method": "reliability",
+  "budget_mode": "adaptive",
+  "precision": "bf16",
+  "validation_diagnostics": false,
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "reliability",
+  "config_hash": "947bc94231ea384e0d00b60df102d204dadb68a2e010f6c389b908c4cc1a0659",
+  "scientific_config_hash": "da1b03e857c4b5ac98072e4e32b837a9bf560702861d41b739740534b1c61fdf",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2027-04-20T22:08:06+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2027-04-20T14:54:00+08:00",
+  "completed_at": "2027-04-20T22:07:00+08:00",
+  "run_id": "run_c47f06ff7b"
+}

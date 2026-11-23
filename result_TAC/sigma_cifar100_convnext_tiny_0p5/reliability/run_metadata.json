@@ -1,0 +1,22 @@
+{
+  "dataset": "cifar100",
+  "model": "convnext_tiny",
+  "method": "reliability",
+  "budget_mode": "adaptive",
+  "precision": "bf16",
+  "validation_diagnostics": false,
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "reliability",
+  "config_hash": "f8e28ecb9260841ad4ba1813f92bedda3460bed26ab62a8d2f4698112c3fadac",
+  "scientific_config_hash": "51f5c16820de28c9484fcb15a7a1bd202ba38a1d2af5de31bec1663b858b871a",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2027-03-09T00:12:05+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2027-03-08T15:38:00+08:00",
+  "completed_at": "2027-03-09T00:10:00+08:00",
+  "run_id": "run_77421207be"
+}

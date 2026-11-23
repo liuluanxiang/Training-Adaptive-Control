@@ -1,0 +1,22 @@
+{
+  "dataset": "imagenet100",
+  "model": "resnet18",
+  "method": "plateau",
+  "budget_mode": "adaptive",
+  "precision": "bf16",
+  "validation_diagnostics": false,
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "plateau",
+  "config_hash": "dbe3e5c1a1e0829906e13f707cffa5330709daeb138373b7650b565ae80c4486",
+  "scientific_config_hash": "d0978491abc6fb7aa196309f1b74f4a1567cb5cdd084b5dc9b742fac29079e98",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2027-01-03T19:38:46+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2027-01-03T14:09:00+08:00",
+  "completed_at": "2027-01-03T19:38:00+08:00",
+  "run_id": "run_f78cd9c287"
+}

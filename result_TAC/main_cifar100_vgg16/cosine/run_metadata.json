@@ -1,0 +1,20 @@
+{
+  "dataset": "cifar100",
+  "model": "vgg16",
+  "method": "cosine",
+  "budget_mode": "adaptive",
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "cosine",
+  "config_hash": "a36f9e9494746f5da47e2342510a38e5765039c624098ff55792dadf7c1374f9",
+  "scientific_config_hash": "49493b77de5b030f5c7fdb08490b51a98e0cc4de2d862d5a175b7c5be951d4c7",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-09-02T08:03:29+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-09-02T01:03:00+08:00",
+  "completed_at": "2026-09-02T08:02:00+08:00",
+  "run_id": "run_c70f270955"
+}

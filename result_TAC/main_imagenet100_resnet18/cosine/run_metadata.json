@@ -1,0 +1,22 @@
+{
+  "dataset": "imagenet100",
+  "model": "resnet18",
+  "method": "cosine",
+  "budget_mode": "adaptive",
+  "precision": "bf16",
+  "validation_diagnostics": false,
+  "data_protocol_version": "deterministic_validation_v2",
+  "variant": "cosine",
+  "config_hash": "f8895b774f923a11068816a102ef3e95bc6854f7bad898be90f9b34617515ef6",
+  "scientific_config_hash": "a8ddea374c758cb3fe7e6eb11e3d66e20cc8e3dd385fbef100986c3ea8d3c84d",
+  "pretrained_checkpoint_sha256": "",
+  "git_commit": "ca08a814fd28ca2808d66eef19eaa3fcf7888cae",
+  "test_evaluation_count": 1,
+  "test_evaluation_timestamp": "2026-12-17T12:25:54+08:00",
+  "checkpoint_selected_before_test": true,
+  "test_used_during_training": false,
+  "status": "COMPLETED",
+  "started_at": "2026-12-17T07:04:00+08:00",
+  "completed_at": "2026-12-17T12:23:00+08:00",
+  "run_id": "run_c964d0b4d1"
+}
