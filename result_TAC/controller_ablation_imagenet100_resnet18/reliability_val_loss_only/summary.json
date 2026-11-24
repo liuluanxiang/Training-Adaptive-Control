@@ -29,7 +29,7 @@
   "controller_beta": 0.9,
   "pb_final": 1.4084745706554451,
   "pd_final": 0.9588745803766575,
-  "rbar_final": -1.3124966350865024,
+  "rbar_final": -1.3125145070266035,
   "lr_reductions": 3,
   "first_lr_drop_epoch": 55,
   "runtime_seconds": 10458.615249068731,
@@ -55,12 +55,14 @@
   "data_protocol_version": "deterministic_validation_v2",
   "final_lr": 0.0125,
   "test_evaluation_count": 1,
-  "test_evaluation_timestamp": "2026-08-30T21:49:23.407425+08:00",
+  "test_evaluation_timestamp": "2026-09-07T23:48:46.754209+08:00",
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "run_id": "run_c1d9beb220",
+  "run_id": "run_558db9a910",
   "max_epochs": 120,
   "final_val_nll": 0.9588265803766576,
-  "seed": 4
+  "seed": 4,
+  "pb_auc": 2.6780957560862704,
+  "pd_auc": 2.487571069433316
 }

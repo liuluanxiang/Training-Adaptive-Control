@@ -11,8 +11,8 @@
   "test_acc": 0.7668,
   "test_top5_acc": 0.9339,
   "test_nll": 0.9448831701960948,
-  "test_ece": 0.0585483769572502,
-  "test_mce": 0.674987500875,
+  "test_ece": 0.07236179709434509,
+  "test_mce": 0.2136858105659485,
   "test_brier": 0.342450000941058,
   "test_aurc": 0.11928477644728538,
   "test_eaurc": 0.0896926153833231,
@@ -29,7 +29,7 @@
   "controller_beta": 0.9,
   "pb_final": 1.0015761604078603,
   "pd_final": 0.9409370041375956,
-  "rbar_final": -1.3477429160267869,
+  "rbar_final": -1.3477606970836407,
   "lr_reductions": 3,
   "first_lr_drop_epoch": 40,
   "runtime_seconds": 974.2184824943542,
@@ -57,7 +57,9 @@
   "checkpoint_selected_before_test": true,
   "test_used_during_training": false,
   "status": "COMPLETED",
-  "run_id": "run_467807d54f",
+  "run_id": "run_9fa38deaee",
   "final_val_nll": 1.0015761604078603,
-  "seed": 4
+  "seed": 4,
+  "pb_auc": 2.731933411458613,
+  "pd_auc": 2.429834334590166
 }
